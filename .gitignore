@@ -1,3 +1,8 @@
+/target/
+/build/
+/.settings/
+*.gml
+
 *.class
 
 # Package Files #
