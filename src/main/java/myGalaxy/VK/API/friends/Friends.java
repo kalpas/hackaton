@@ -15,8 +15,11 @@ import myGalaxy.VK.API.domain.VKErrorResponse;
 import org.apache.http.client.utils.URIBuilder;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.common.base.Joiner;
 
 public class Friends {
+	private static final String[] FIELDS = {"sex","country","photo_200_orig","connections"};
+
 	private final String accessToken;
 
 	private ObjectMapper mapper = new ObjectMapper();
@@ -32,7 +35,7 @@ public class Friends {
 		URIBuilder builder = RequestHelper.getBuilder("friends.get");
 		builder.addParameter("user_id", userId);
 		builder.addParameter("order", "name");
-		builder.addParameter("fields", "sex,country");
+		builder.addParameter("fields", Joiner.on(",").join(FIELDS));
 
 		String entityString = RequestHelper.execute(builder, accessToken);
 

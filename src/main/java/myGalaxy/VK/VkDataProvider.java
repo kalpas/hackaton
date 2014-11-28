@@ -7,7 +7,6 @@ import myGalaxy.VK.API.domain.User;
 import myGalaxy.VK.API.friends.Friends;
 import myGalaxy.domain.Node;
 import myGalaxy.graphing.DataProvider;
-import myGalaxy.graphing.Graphing;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
@@ -38,18 +37,10 @@ public class VkDataProvider implements DataProvider {
 		List<User> list = friends.get(center.getId());
 		List<Node> nodes = new ArrayList<>();
 		for (User user : list) {
-			nodes.add(createNode(user));
+			nodes.add(new Node(user));
 		}
 		connections.putAll(center, nodes);
 		return nodes;
-	}
-
-	private Node createNode(User user) {
-		Node node = new Node();
-		node.setId(user.uid);
-		node.setName(user.first_name + " " + user.last_name);
-		node.setSize(Graphing.DEFAULT_NODE_SIZE.toString());
-		return node;
 	}
 
 }

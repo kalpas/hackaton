@@ -1,8 +1,13 @@
 package myGalaxy.domain;
 
 import java.io.Serializable;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import myGalaxy.VK.API.domain.User;
+import myGalaxy.graphing.Graphing;
 
 public class Node implements IPassable, Serializable {
 	/**
@@ -15,8 +20,20 @@ public class Node implements IPassable, Serializable {
 	private String size;
 	private String communityId;
 	private boolean passed;
-	
+	private List<String> photos;
+	private String color;
+
 	public Map<String, String> additionalProperties = new HashMap<>();
+
+	public Node() {
+	}
+
+	public Node(User user) {
+		this.setId(user.uid);
+		this.setName(user.first_name + " " + user.last_name);
+		this.setSize(Graphing.DEFAULT_NODE_SIZE.toString());
+		this.setPhotos(Arrays.asList(user.photo_200_orig));
+	}
 
 	public boolean isPassed() {
 		return passed;
@@ -57,7 +74,23 @@ public class Node implements IPassable, Serializable {
 	public void setCommunityId(String communityId) {
 		this.communityId = communityId;
 	}
-	
+
+	public List<String> getPhotos() {
+		return photos;
+	}
+
+	public void setPhotos(List<String> photos) {
+		this.photos = photos;
+	}
+
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -87,4 +120,5 @@ public class Node implements IPassable, Serializable {
 		}
 		return true;
 	}
+
 }

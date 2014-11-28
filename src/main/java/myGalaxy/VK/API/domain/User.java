@@ -11,6 +11,13 @@ public class User {
 	public String user_id;
 	public String deactivated;
 	public String[] lists;
+	public String photo_200_orig;
+	public String instagram;
+	public String skype;
+	public String facebook;
+	public String twitter;
+	public String livejournal;
+	public String facebook_name;
 
 	@Override
 	public int hashCode() {

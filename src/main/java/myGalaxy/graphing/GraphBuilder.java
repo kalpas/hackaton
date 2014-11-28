@@ -26,19 +26,10 @@ public class GraphBuilder {
 
 		List<Edge> edges = new ArrayList<>();
 		for (Map.Entry<Node, Node> entry : map.entries()) {
-			edges.add(createEdge(entry.getKey(), entry.getValue()));
+			edges.add(new Edge(entry.getKey(), entry.getValue()));
 		}
 		graph.addAllEdges(edges);
 
 		return graph;
 	}
-
-	private Edge createEdge(Node key, Node value) {
-		Edge edge = new Edge();
-		edge.setFrom(key.getId());
-		edge.setTo(value.getId());
-		edge.setId(key.getId() + value.getId());
-		return edge;
-	}
-
 }

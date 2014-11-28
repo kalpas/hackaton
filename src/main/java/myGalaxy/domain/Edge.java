@@ -11,6 +11,16 @@ public class Edge implements IPassable, Serializable {
 	private String from;
 	private String to;
 	private boolean passed;
+	private String color;
+
+	public Edge() {
+	}
+
+	public Edge(Node key, Node value) {
+		this.setFrom(key.getId());
+		this.setTo(value.getId());
+		this.setId(key.getId() + value.getId());
+	}
 
 	public boolean isPassed() {
 		return passed;
@@ -44,6 +54,14 @@ public class Edge implements IPassable, Serializable {
 		this.to = to;
 	}
 
+	public String getColor() {
+		return color;
+	}
+
+	public void setColor(String color) {
+		this.color = color;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -73,5 +91,4 @@ public class Edge implements IPassable, Serializable {
 		}
 		return true;
 	}
-
 }

@@ -1,5 +1,6 @@
 package myGalaxy.graphing;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +43,7 @@ public class QueuedDataProvider {
 
 			Multimap<Node, Node> connections = HashMultimap.create();
 
-			Node center = new Node();// TODO implement user.get
+			Node center = new Node();// FIXME implement user.get
 			center.setId(userId);
 			Set<Node> firstStep = populateConnections4User(connections, center,
 					queues);
@@ -64,31 +65,14 @@ public class QueuedDataProvider {
 		List<User> set = friends.get(center.getId());
 		Set<Node> nodes = new HashSet<>();
 		for (User user : set) {
-			Node node = createNode(user);
+			Node node = new Node(user);
 			nodes.add(node);
 			if (!connections.get(center).contains(node)) {
 				queues.nodeQueue.add(node);
-				queues.edgeQueue.add(createEdge(center, node));
+				queues.edgeQueue.add(new Edge(center, node));
 				connections.put(center, node);
 			}
 		}
 		return nodes;
 	}
-
-	private Node createNode(User user) {
-		Node node = new Node();
-		node.setId(user.uid);
-		node.setName(user.first_name + " " + user.last_name);
-		node.setSize(Graphing.DEFAULT_NODE_SIZE.toString());
-		return node;
-	}
-
-	private Edge createEdge(Node key, Node value) {
-		Edge edge = new Edge();
-		edge.setFrom(key.getId());
-		edge.setTo(value.getId());
-		edge.setId(key.getId() + value.getId());
-		return edge;
-	}
-
 }
