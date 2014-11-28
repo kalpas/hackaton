@@ -46,6 +46,16 @@ public class TransmitController {
 	}
 	
 	@ResponseBody
+	@RequestMapping(value = "/instbuild", method = RequestMethod.GET)
+	public Graph instLoadGraph(
+			@RequestParam(required = false, value = "userId") String userId,
+			HttpSession session) {
+		return this.graphServ.buildGraph(userId != null ? userId : String.valueOf(session
+				.getAttribute(MyGalaxy.INST_SESSION_USER_ID)), String.valueOf(session
+				.getAttribute(MyGalaxy.INST_SESSION_ACCESS_TOKEN)));
+	}
+	
+	@ResponseBody
 	@RequestMapping(value = "/pull", method = RequestMethod.GET)
 	public Graph pullGraph(@RequestParam(required = true, value = "id") String id) {
 		return this.graphServ.pullGraph(id);
