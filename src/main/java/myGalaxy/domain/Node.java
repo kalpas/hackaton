@@ -2,7 +2,7 @@ package myGalaxy.domain;
 
 import java.io.Serializable;
 
-public class Node implements Serializable {
+public class Node implements IPassable, Serializable {
 	/**
 	 * 
 	 */
@@ -11,6 +11,7 @@ public class Node implements Serializable {
 	private String name;
 	private String size;
 	private String communityId;
+	private boolean passed;
 
 	@Override
 	public int hashCode() {
@@ -22,6 +23,14 @@ public class Node implements Serializable {
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((size == null) ? 0 : size.hashCode());
 		return result;
+	}
+
+	public boolean isPassed() {
+		return passed;
+	}
+
+	public void setPassed(boolean passed) {
+		this.passed = passed;
 	}
 
 	@Override
