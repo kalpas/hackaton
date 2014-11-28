@@ -11,6 +11,9 @@ import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 public class RequestHelper {
+	
+	public static final int TIMEOUT = 400;
+	private static Long lastRequest = System.currentTimeMillis();
 
 	public static String execute(URIBuilder builder, String accessToken) {
 
@@ -30,6 +33,15 @@ public class RequestHelper {
 		CloseableHttpResponse response = null;
 		String entityString = null;
 		try {
+//			long delta = System.currentTimeMillis() - lastRequest;
+//			if(delta > TIMEOUT){
+//				try {
+//					Thread.sleep(delta);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+			lastRequest = System.currentTimeMillis();
 			response = httpclient.execute(get);
 			try {
 				entityString = IOUtils.toString(response.getEntity()
@@ -53,6 +65,14 @@ public class RequestHelper {
 		builder.setScheme("https").setHost(VK.API_BASE).setPath(method);
 		return builder;
 
+	}
+	
+	public static void sleep(){
+		try {
+			Thread.sleep(RequestHelper.TIMEOUT);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

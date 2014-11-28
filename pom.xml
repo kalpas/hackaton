@@ -42,7 +42,7 @@
 			<version>2.2.3</version>
 			<scope>runtime</scope>
 		</dependency>
-		
+
 		<!-- TEST -->
 		<dependency>
 			<groupId>junit</groupId>
@@ -95,6 +95,12 @@
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>14.0.1</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.jsonschema2pojo</groupId>
+			<artifactId>jsonschema2pojo-core</artifactId>
+			<version>0.4.6</version>
 		</dependency>
 
 	</dependencies>
