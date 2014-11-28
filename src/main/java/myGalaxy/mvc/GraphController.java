@@ -1,5 +1,7 @@
 package myGalaxy.mvc;
 
+import java.util.Random;
+
 import javax.servlet.http.HttpSession;
 
 import myGalaxy.MyGalaxy;
@@ -26,6 +28,21 @@ public class GraphController {
 
 		mav.addObject("graph", this.graphServ.buildGraph(userId, String
 				.valueOf(session.getAttribute(MyGalaxy.SESSION_ACCESS_TOKEN))));
+		return mav;
+	}
+	
+	@RequestMapping(value = "build")
+	public ModelAndView asyncBuild(
+			@RequestParam(required = true, value = MyGalaxy.SESSION_USER_ID) String userId,
+			HttpSession session) {
+		ModelAndView mav = new ModelAndView("graph");
+
+		String id = String.valueOf(new Random(1000).nextLong());
+
+		this.graphServ.asyncBuildGraph(userId, String
+				.valueOf(session.getAttribute(MyGalaxy.SESSION_ACCESS_TOKEN)),id);
+
+		mav.addObject("graphId", id);
 		return mav;
 	}
 }

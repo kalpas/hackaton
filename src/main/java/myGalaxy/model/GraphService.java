@@ -46,7 +46,8 @@ public class GraphService implements IGraphService {
 		return builder.build(provider, userId);
 	}
 	
-	public Graph buildGraph(String userId, String accessToken, String id) {
+	public Graph asyncBuildGraph(String userId, String accessToken, String id) {
+		// TODO: implement start of async graph building
 		GraphBuilder builder = new GraphBuilder();
 		DataProvider provider = new VkDataProvider(accessToken);
 		
