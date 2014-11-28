@@ -23,16 +23,23 @@ public class GraphController {
 	@RequestMapping(value = "graph")
 	public ModelAndView getGraph() {
 		ModelAndView mav = new ModelAndView("graph");
+
+		String id = String.valueOf(new Random(1000).nextLong());
+		
+		mav.addObject("graphId",id);
+		
 		return mav;
 	}
 	
-	@RequestMapping(value = "build")
+	@RequestMapping(value = "asyncgraph")
 	public ModelAndView asyncBuild(
 			@RequestParam(required = true, value = MyGalaxy.VK_SESSION_USER_ID) String userId,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView("graph");
 
 		String id = String.valueOf(new Random(1000).nextLong());
+
+		mav.addObject("graphId",id);
 
 		this.graphServ.asyncBuildGraph(userId, String
 				.valueOf(session.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)),id);

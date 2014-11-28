@@ -3,7 +3,7 @@ package myGalaxy;
 import java.util.HashMap;
 import java.util.Map;
 
-import myGalaxy.domain.Graph;
+import myGalaxy.graphing.QueueHolder;
 
 public class MyGalaxy {
 	
@@ -14,5 +14,5 @@ public class MyGalaxy {
 	public static final String INST_SESSION_USER_ID = "instuser";
 	public static final String INST_SESSION_ACCESS_TOKEN = "instaccessToken";
 
-	public static final Map<String,Graph> GRAPH_POOL = new HashMap<String,Graph>();
+	public static final Map<String,QueueHolder> GRAPH_POOL = new HashMap<String,QueueHolder>();
 }

@@ -1,6 +1,7 @@
 package myGalaxy.model;
 
 import java.util.List;
+import java.util.Queue;
 
 import myGalaxy.MyGalaxy;
 import myGalaxy.VK.VkDataProvider;
@@ -9,6 +10,8 @@ import myGalaxy.domain.Graph;
 import myGalaxy.domain.Node;
 import myGalaxy.graphing.DataProvider;
 import myGalaxy.graphing.GraphBuilder;
+import myGalaxy.graphing.QueueHolder;
+import myGalaxy.graphing.QueuedDataProvider;
 
 import org.springframework.stereotype.Service;
 
@@ -45,26 +48,37 @@ public class GraphService implements IGraphService {
 
 		return builder.build(provider, userId);
 	}
-	
-	public Graph asyncBuildGraph(String userId, String accessToken, String id) {
-		// TODO: implement start of async graph building
-		GraphBuilder builder = new GraphBuilder();
-		DataProvider provider = new VkDataProvider(accessToken);
-		
-		return builder.build(provider, userId);
+
+	public void asyncBuildGraph(String userId, String accessToken, String id) {
+		QueuedDataProvider provider = new QueuedDataProvider(accessToken);
+
+		QueueHolder qh = provider.submitTask(userId);
+		MyGalaxy.GRAPH_POOL.put(id, qh);
 	}
 
 	public Graph pullGraph(String id) {
 		Graph g = new Graph();
-		
-		Graph graph = MyGalaxy.GRAPH_POOL.get(id);
-		if(graph != null) {
-			synchronized (graph) {
-				g.addAllEdges(graph.pullEdgesChanges());
-				g.addAllNodes(graph.pullNodesChanges());
+
+		QueueHolder qh = MyGalaxy.GRAPH_POOL.get(id);
+		if (qh != null) {
+			if (qh.finished) {
+				return null;
+			} else {
+				synchronized (qh.nodeQueue) {
+					Node node;
+					while ((node = qh.nodeQueue.poll()) != null) {
+						g.addNode(node);
+					}
+				}
+				synchronized (qh.edgeQueue) {
+					Edge edge;
+					while ((edge = qh.edgeQueue.poll()) != null) {
+						g.getEdge(edge);
+					}
+				}
 			}
 		}
-		
+
 		return g;
 	}
 }
