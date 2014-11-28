@@ -14,11 +14,9 @@ import com.google.common.collect.Multimap;
 
 public class VkDataProvider implements DataProvider {
 
-	private final String accessToken;
 	private final Friends friends;
 
 	public VkDataProvider(String accessToken) {
-		this.accessToken = accessToken;
 		this.friends = new Friends(accessToken);
 	}
 
@@ -38,11 +36,11 @@ public class VkDataProvider implements DataProvider {
 	private List<Node> populateConnections4User(
 			Multimap<Node, Node> connections, Node center) {
 		List<User> list = friends.get(center.getId());
-		// connections.putAll(center, list);
 		List<Node> nodes = new ArrayList<>();
 		for (User user : list) {
 			nodes.add(createNode(user));
 		}
+		connections.putAll(center, nodes);
 		return nodes;
 	}
 
