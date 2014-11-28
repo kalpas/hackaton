@@ -10,4 +10,5 @@ public class User {
 	public String online;
 	public String user_id;
 	public String deactivated;
+	public String[] lists;
 }
