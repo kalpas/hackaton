@@ -33,19 +33,11 @@ public class RequestHelper {
 		CloseableHttpResponse response = null;
 		String entityString = null;
 		try {
-//			long delta = System.currentTimeMillis() - lastRequest;
-//			if(delta > TIMEOUT){
-//				try {
-//					Thread.sleep(delta);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//			}
 			lastRequest = System.currentTimeMillis();
 			response = httpclient.execute(get);
 			try {
 				entityString = IOUtils.toString(response.getEntity()
-						.getContent());
+						.getContent(), "UTF-8");
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} finally {

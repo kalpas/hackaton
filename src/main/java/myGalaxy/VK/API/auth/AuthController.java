@@ -57,7 +57,7 @@ public class AuthController {
 
 		String entityString;
 		try {
-			entityString = IOUtils.toString(response.getEntity().getContent());
+			entityString = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 		} finally {
 			response.close();
 		}
