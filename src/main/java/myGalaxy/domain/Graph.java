@@ -4,32 +4,48 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 public class Graph {
 	
 	private List<Node> nodes = new ArrayList<Node>();
 	private List<Edge> edges = new ArrayList<Edge>();
 
+	public List<Node> getNodes() {
+		return this.nodes;
+	}
+	
+	public List<Edge> getEdges() {
+		return this.edges;
+	}
+
+	@JsonIgnore
 	public synchronized void addNode(Node node) {
 		this.nodes.add(node);
 	}
-	
+
+	@JsonIgnore
 	public synchronized void getEdge(Edge edge) {
 		this.edges.add(edge);
 	}
-	
+
+	@JsonIgnore
 	public synchronized void addAllNodes(Collection<Node> node) {
 		this.nodes.addAll(node);
 	}
-	
+
+	@JsonIgnore
 	public synchronized void addAllEdges(Collection<Edge> edge) {
 		this.edges.addAll(edge);
 	}
-	
-	public synchronized List<Node> getNewNodes() {
+
+	@JsonIgnore
+	public synchronized List<Node> pullNodesChanges() {
 		return this.getNewOnes(this.nodes);
 	}
-	
-	public synchronized List<Edge> getNewEdges() {
+
+	@JsonIgnore
+	public synchronized List<Edge> pullEdgesChanges() {
 		return this.getNewOnes(this.edges);
 	}
 	

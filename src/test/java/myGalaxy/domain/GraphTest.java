@@ -25,7 +25,7 @@ public class GraphTest {
 		n.setId("Test3");
 		graph.addNode(n);
 		
-		List<Node> newNodes = graph.getNewNodes();
+		List<Node> newNodes = graph.pullNodesChanges();
 		
 		assertEquals(3,newNodes.size());
 		assertEquals("Test3",newNodes.get(0).getId());
@@ -40,7 +40,7 @@ public class GraphTest {
 	public void testGetNewNodes_emptyNodes() {
 		Graph graph = new Graph();
 		
-		List<Node> newNodes = graph.getNewNodes();
+		List<Node> newNodes = graph.pullNodesChanges();
 		
 		assertTrue(newNodes.isEmpty());
 	}
