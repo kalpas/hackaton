@@ -23,6 +23,11 @@ public class GraphController {
 	@RequestMapping(value = "graph")
 	public ModelAndView getGraph() {
 		ModelAndView mav = new ModelAndView("graph");
+
+		String id = String.valueOf(new Random(1000).nextLong());
+		
+		mav.addObject("graphId",id);
+		
 		return mav;
 	}
 	
