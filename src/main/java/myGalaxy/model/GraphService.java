@@ -12,6 +12,7 @@ import myGalaxy.graphing.DataProvider;
 import myGalaxy.graphing.GraphBuilder;
 import myGalaxy.graphing.QueueHolder;
 import myGalaxy.graphing.QueuedVKDataProvider;
+import myGalaxy.inst.InstagramDataProvider;
 
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,13 @@ public class GraphService implements IGraphService {
 	public Graph buildGraph(String userId, String accessToken) {
 		GraphBuilder builder = new GraphBuilder();
 		DataProvider provider = new VkDataProvider(accessToken);
+
+		return builder.build(provider, userId);
+	}
+	
+	public Graph buildInstGraph(String userId, String accessToken) {
+		GraphBuilder builder = new GraphBuilder();
+		DataProvider provider = new InstagramDataProvider(accessToken);
 
 		return builder.build(provider, userId);
 	}
