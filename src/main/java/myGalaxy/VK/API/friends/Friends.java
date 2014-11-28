@@ -13,8 +13,14 @@ import org.apache.http.client.utils.URIBuilder;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Friends {
+	private final String accessToken;
+	
+	public Friends(String accessToken) {
+		this.accessToken = accessToken;
+	}
+	
 
-	public List<User> get(String userId, String accessToken) {
+	public List<User> get(String userId) {
 		List<User> list = new ArrayList<>();
 
 		// TODO support count over 5000
