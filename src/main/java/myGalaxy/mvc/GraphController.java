@@ -25,9 +25,6 @@ public class GraphController {
 			@RequestParam(required = true, value = MyGalaxy.SESSION_USER_ID) String userId,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView("graph");
-
-		mav.addObject("graph", this.graphServ.buildGraph(userId, String
-				.valueOf(session.getAttribute(MyGalaxy.SESSION_ACCESS_TOKEN))));
 		return mav;
 	}
 	
