@@ -12,11 +12,11 @@ import myGalaxy.domain.Node;
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
-public class QueuedDataProvider {
+public class QueuedVKDataProvider {
 
 	private final Friends friends;
 
-	public QueuedDataProvider(String accessToken) {
+	public QueuedVKDataProvider(String accessToken) {
 		this.friends = new Friends(accessToken);
 	}
 
@@ -44,10 +44,21 @@ public class QueuedDataProvider {
 
 			Node center = new Node();// FIXME implement user.get
 			center.setId(userId);
-			Set<Node> firstStep = populateConnections4User(connections, center,
-					queues);
-			for (Node node : firstStep) {
-				populateConnections4User(connections, node, queues);
+
+			// if (!connections.containsKey(center)) {
+			// queues.nodeQueue.add(center);
+			// }
+
+			List<User> set = friends.get(center.getId());
+			Set<Node> nodes = new HashSet<>();
+			for (User user : set) {
+				Node node = new Node(user);
+				nodes.add(node);
+				queues.nodeQueue.add(node);
+			}
+
+			for (Node node : nodes) {
+				populateConnections4User(connections, node, nodes, queues);
 			}
 
 			queues.finished = true;
@@ -56,17 +67,15 @@ public class QueuedDataProvider {
 	}
 
 	private Set<Node> populateConnections4User(
-			Multimap<Node, Node> connections, Node center, QueueHolder queues) {
-		if (!connections.containsKey(center)) {
-			queues.nodeQueue.add(center);
-		}
+			Multimap<Node, Node> connections, Node center, Set<Node> all,
+			QueueHolder queues) {
 
 		List<User> set = friends.get(center.getId());
 		Set<Node> nodes = new HashSet<>();
 		for (User user : set) {
 			Node node = new Node(user);
 			nodes.add(node);
-			if (!connections.get(center).contains(node)) {
+			if (all.contains(node)) {
 				queues.nodeQueue.add(node);
 				queues.edgeQueue.add(new Edge(center, node));
 				connections.put(center, node);
