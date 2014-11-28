@@ -28,14 +28,14 @@ public class GraphController {
 	
 	@RequestMapping(value = "build")
 	public ModelAndView asyncBuild(
-			@RequestParam(required = true, value = MyGalaxy.SESSION_USER_ID) String userId,
+			@RequestParam(required = true, value = MyGalaxy.VK_SESSION_USER_ID) String userId,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView("graph");
 
 		String id = String.valueOf(new Random(1000).nextLong());
 
 		this.graphServ.asyncBuildGraph(userId, String
-				.valueOf(session.getAttribute(MyGalaxy.SESSION_ACCESS_TOKEN)),id);
+				.valueOf(session.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)),id);
 
 		mav.addObject("graphId", id);
 		return mav;

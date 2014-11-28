@@ -42,7 +42,7 @@ public class TransmitController {
 			@RequestParam(required = true, value = "userId") String userId,
 			HttpSession session) {
 		return this.graphServ.buildGraph(userId, String.valueOf(session
-				.getAttribute(MyGalaxy.SESSION_ACCESS_TOKEN)));
+				.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)));
 	}
 	
 	@ResponseBody
