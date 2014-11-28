@@ -1,4 +1,4 @@
-package myGalaxy.VK.API.auth.domain;
+package myGalaxy.VK.API.domain;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;

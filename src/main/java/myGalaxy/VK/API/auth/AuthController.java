@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import myGalaxy.MyGalaxy;
 import myGalaxy.VK.API.VK;
-import myGalaxy.VK.API.auth.domain.AuthResponse;
+import myGalaxy.VK.API.domain.AuthResponse;
 
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
@@ -38,12 +38,6 @@ public class AuthController {
 	public String getToken(
 			@RequestParam(value = "code", required = false) String code,
 			HttpSession session) throws URISyntaxException, IOException {
-
-		// "https://oauth.vk.com/access_token?
-		// client_id=APP_ID&
-		// client_secret=APP_SECRET&
-		// code=7a6fa4dff77a228eeda56603b8f53806c883f011c40b72630bb50df056f6479e52a&
-		// redirect_uri=REDIRECT_URI "
 
 		URIBuilder builder = new URIBuilder();
 		builder.setScheme("https").setHost(VK.API_HOST).setPath(VK.AUTH_PATH);
