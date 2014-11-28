@@ -11,6 +11,7 @@ import myGalaxy.domain.Node;
 import myGalaxy.graphing.DataProvider;
 import myGalaxy.graphing.GraphBuilder;
 import myGalaxy.graphing.QueueHolder;
+import myGalaxy.graphing.QueuedDataProvider;
 
 import org.springframework.stereotype.Service;
 
@@ -47,13 +48,12 @@ public class GraphService implements IGraphService {
 
 		return builder.build(provider, userId);
 	}
-	
-	public Graph asyncBuildGraph(String userId, String accessToken, String id) {
-		// TODO: implement start of async graph building
-		GraphBuilder builder = new GraphBuilder();
-		DataProvider provider = new VkDataProvider(accessToken);
-		
-		return builder.build(provider, userId);
+
+	public void asyncBuildGraph(String userId, String accessToken, String id) {
+		QueuedDataProvider provider = new QueuedDataProvider(accessToken);
+
+		QueueHolder qh = provider.submitTask(userId);
+		MyGalaxy.GRAPH_POOL.put(id, qh);
 	}
 
 	public Graph pullGraph(String id) {
