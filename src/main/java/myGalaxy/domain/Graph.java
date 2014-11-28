@@ -1,5 +1,6 @@
 package myGalaxy.domain;
 
+import java.beans.Transient;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -9,6 +10,14 @@ public class Graph {
 	private List<Node> nodes = new ArrayList<Node>();
 	private List<Edge> edges = new ArrayList<Edge>();
 
+	public List<Node> getNodes() {
+		return this.nodes;
+	}
+	
+	public List<Edge> getEdges() {
+		return this.edges;
+	}
+	
 	public synchronized void addNode(Node node) {
 		this.nodes.add(node);
 	}
@@ -25,11 +34,13 @@ public class Graph {
 		this.edges.addAll(edge);
 	}
 	
-	public synchronized List<Node> getNewNodes() {
+	@Transient
+	public synchronized List<Node> pullNodesChanges() {
 		return this.getNewOnes(this.nodes);
 	}
-	
-	public synchronized List<Edge> getNewEdges() {
+
+	@Transient
+	public synchronized List<Edge> pullEdgesChanges() {
 		return this.getNewOnes(this.edges);
 	}
 	
