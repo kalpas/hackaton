@@ -10,10 +10,10 @@ module.exports.main = function () {
 	fileref.setAttribute("src", "js/three.js");
 	document.getElementsByTagName("head")[0].appendChild(fileref);
 	
-	//var graphId = $('#graphId').val();
-	//console.info(graphId);
-	getData($('#graphId').val());
+	var graphId = $('#graphId').val();
+	console.info(graphId);
 	if (graphId) {
+		getData(graphId);
 		timerId = setInterval(function(){getData(graphId)},10000);
 	} else {
 		console.info('No graphId');
