@@ -10,6 +10,7 @@ module.exports.main = function () {
 	fileref.setAttribute("src", "js/three.js");
 	document.getElementsByTagName("head")[0].appendChild(fileref);
 	
+	getData();
 
 };
 
@@ -135,4 +136,25 @@ function createGraph(graph, data) {
 	}
 		
 	graph.endUpdate();
+}
+
+var serverData = undefined;
+
+function getData() {
+	var userId = '12588098';
+	var serverData = undefined;
+	jQuery.ajax({
+		type : 'GET',
+		async : true,
+		cashe : false,
+		dataType : 'json',
+		url : 'rest/build?userId='+userId,
+		success : function(data) {
+			alert(data);
+		},
+		error : function(jqXHR, textStatus, errorThrown) {
+			console.log(textStatus, errorThrown);
+			alert('Error occured!');
+		} 
+	});
 }
