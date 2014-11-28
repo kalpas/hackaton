@@ -29,12 +29,12 @@ public class Graph {
 		this.edges.add(edge);
 	}
 
-	@JsonIgnore
+	@JsonIgnore 
 	public synchronized void addAllNodes(Collection<Node> node) {
 		this.nodes.addAll(node);
 	}
-
-	@JsonIgnore
+  
+	@JsonIgnore 
 	public synchronized void addAllEdges(Collection<Edge> edge) {
 		this.edges.addAll(edge);
 	}
