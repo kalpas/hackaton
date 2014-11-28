@@ -2,7 +2,7 @@ package myGalaxy.domain;
 
 import java.io.Serializable;
 
-public class Edge implements Serializable {
+public class Edge implements IPassable, Serializable {
 	/**
 	 * 
 	 */
@@ -10,6 +10,15 @@ public class Edge implements Serializable {
 	private String id;
 	private String from;
 	private String to;
+	private boolean passed;
+
+	public boolean isPassed() {
+		return passed;
+	}
+
+	public void setPassed(boolean passed) {
+		this.passed = passed;
+	}
 
 	public String getId() {
 		return id;
