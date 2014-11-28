@@ -26,7 +26,7 @@ module.exports.buildGraph = function (data) {
 	 // tell graphics we want custom UI
 	threeGraphics.createNodeUI(function (node) {     
 		var nodeGeometry = new THREE.SphereGeometry(node.data.size);
-		var nodeMaterial = new THREE.MeshBasicMaterial({ color: node.data.color });
+		var nodeMaterial = new THREE.MeshBasicMaterial(/*{ color: node.data.color }*/);
 		
 		var result = new THREE.Mesh(nodeGeometry, nodeMaterial);
 		result['nodeId'] =  node.id;
@@ -40,7 +40,7 @@ module.exports.buildGraph = function (data) {
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color });
+		var linkMaterial = new THREE.LineBasicMaterial(/*{ color: link.data.color }*/);
 		return new THREE.Line(linkGeometry, linkMaterial);
   });
 	
@@ -125,23 +125,31 @@ function addEventListeners(graph) {
 };
 
 function createGraph(graph, data) {
+	
+	if (!data.nodes || !data.edges) {
+		return;
+	}
+	
 	graph.beginUpdate();
 	
 	for (var i = 0; i < data.nodes.length; i++) {
+		//console.info('Node : id - ' + data.nodes[i].id);
 		graph.addNode(data.nodes[i].id, data.nodes[i]);
 	}
 	
 	for (var i = 0; i < data.edges.length; i++) {
-		graph.addLink(data.edges[i].fromId, data.edges[i].toId, data.edges[i]);
+		//console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
+		graph.addLink(data.edges[i].from, data.edges[i].to, data.edges[i]);
 	}
 		
 	graph.endUpdate();
+	console.info('Graph created!');
 }
 
 var serverData = undefined;
 
 function getData() {
-	var userId = '12588098';
+	var userId = '4293451';
 	var serverData = undefined;
 	jQuery.ajax({
 		type : 'GET',
@@ -150,7 +158,8 @@ function getData() {
 		dataType : 'json',
 		url : 'rest/build?userId='+userId,
 		success : function(data) {
-			alert(data);
+			console.info(data);
+			ngraph.buildGraph(data);
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
