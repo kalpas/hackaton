@@ -1,4 +1,4 @@
-package myGalaxy.VK.API.auth;
+package myGalaxy.auth;
 
 import javax.servlet.http.HttpSession;
 
