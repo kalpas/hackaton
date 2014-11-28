@@ -25,8 +25,15 @@ public class VkDataProvider implements DataProvider {
 
 		Node center = new Node();// TODO implement user.get
 		center.setId(userId);
-		List<Node> firstStep = populateConnections4User(connections, center);
-		for (Node node : firstStep) {
+		
+		List<User> firstStep = friends.get(center.getId());
+		List<Node> nodes = new ArrayList<>();
+		for (User user : firstStep) {
+				nodes.add(new Node(user));
+		}
+		connections.putAll(center, nodes);
+		
+		for (Node node : nodes) {
 			populateConnections4User(connections, node);
 		}
 		return connections;
@@ -37,7 +44,9 @@ public class VkDataProvider implements DataProvider {
 		List<User> list = friends.get(center.getId());
 		List<Node> nodes = new ArrayList<>();
 		for (User user : list) {
-			nodes.add(new Node(user));
+			if (connections.keySet().contains(user)) {//TODO add tails
+				nodes.add(new Node(user));
+			}
 		}
 		connections.putAll(center, nodes);
 		return nodes;
