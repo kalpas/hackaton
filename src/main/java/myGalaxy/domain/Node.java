@@ -1,6 +1,8 @@
 package myGalaxy.domain;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Node implements IPassable, Serializable {
 	/**
@@ -12,6 +14,8 @@ public class Node implements IPassable, Serializable {
 	private String size;
 	private String communityId;
 	private boolean passed;
+	
+	public Map<String, String> additionalProperties = new HashMap<>();
 
 	@Override
 	public int hashCode() {

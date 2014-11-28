@@ -2,9 +2,12 @@ package myGalaxy.model;
 
 import java.util.List;
 
+import myGalaxy.VK.VkDataProvider;
 import myGalaxy.domain.Edge;
 import myGalaxy.domain.Graph;
 import myGalaxy.domain.Node;
+import myGalaxy.graphing.DataProvider;
+import myGalaxy.graphing.GraphBuilder;
 
 import org.springframework.stereotype.Service;
 
@@ -36,8 +39,10 @@ public class GraphService implements IGraphService {
 	}
 
 	public Graph buildGraph(String userId, String accessToken) {
-		// todo
-		return null;
+		GraphBuilder builder = new GraphBuilder();
+		DataProvider provider = new VkDataProvider(accessToken);
+
+		return builder.build(provider, userId);
 	}
 
 }

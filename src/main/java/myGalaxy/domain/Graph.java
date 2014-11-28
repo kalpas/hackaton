@@ -1,7 +1,7 @@
 package myGalaxy.domain;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Collection;
 import java.util.List;
 
 public class Graph {
@@ -17,11 +17,11 @@ public class Graph {
 		this.edges.add(edge);
 	}
 	
-	public synchronized void addAllNodes(List<Node> node) {
+	public synchronized void addAllNodes(Collection<Node> node) {
 		this.nodes.addAll(node);
 	}
 	
-	public synchronized void getAllEdges(List<Edge> edge) {
+	public synchronized void getAllEdges(Collection<Edge> edge) {
 		this.edges.addAll(edge);
 	}
 	
