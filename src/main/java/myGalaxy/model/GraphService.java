@@ -2,6 +2,7 @@ package myGalaxy.model;
 
 import java.util.List;
 
+import myGalaxy.MyGalaxy;
 import myGalaxy.VK.VkDataProvider;
 import myGalaxy.domain.Edge;
 import myGalaxy.domain.Graph;
@@ -44,5 +45,23 @@ public class GraphService implements IGraphService {
 
 		return builder.build(provider, userId);
 	}
+	
+	public Graph buildGraph(String userId, String accessToken, String id) {
+		GraphBuilder builder = new GraphBuilder();
+		DataProvider provider = new VkDataProvider(accessToken);
+		
+		return builder.build(provider, userId);
+	}
 
+	public Graph pullGraph(String id) {
+		Graph g = new Graph();
+		
+		Graph graph = MyGalaxy.GRAPH_POOL.get(id);
+		if(graph != null) {
+			g.addAllEdges(graph.getNewEdges());
+			g.addAllNodes(graph.getNewNodes());
+		}
+		
+		return g;
+	}
 }

@@ -1,6 +1,7 @@
 package myGalaxy.domain;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.List;
 
@@ -28,7 +29,19 @@ public class GraphTest {
 		
 		assertEquals(3,newNodes.size());
 		assertEquals("Test3",newNodes.get(0).getId());
+		assertTrue(newNodes.get(0).isPassed());
 		assertEquals("Test2",newNodes.get(1).getId());
+		assertTrue(newNodes.get(1).isPassed());
 		assertEquals("Test1",newNodes.get(2).getId());
+		assertTrue(newNodes.get(2).isPassed());
+	}
+
+	@Test
+	public void testGetNewNodes_emptyNodes() {
+		Graph graph = new Graph();
+		
+		List<Node> newNodes = graph.getNewNodes();
+		
+		assertTrue(newNodes.isEmpty());
 	}
 }
