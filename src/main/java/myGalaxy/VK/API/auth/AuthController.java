@@ -7,6 +7,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpSession;
 
+import myGalaxy.MyGalaxy;
 import myGalaxy.VK.API.VK;
 import myGalaxy.VK.API.auth.domain.AuthResponse;
 
@@ -30,14 +31,10 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
-@RequestMapping("/auth/")
+@RequestMapping("/auth")
 public class AuthController {
 
-	private static final String SESSION_USER_ID = "userId";
-	private static final String SESSION_EXPIRES_IN = "expiresIn";
-	private static final String SESSION_ACCESS_TOKEN = "accessToken";
-
-	@RequestMapping(method = RequestMethod.GET, value = "code")
+	@RequestMapping(method = RequestMethod.GET)
 	public String getToken(
 			@RequestParam(value = "code", required = false) String code,
 			HttpSession session) throws URISyntaxException, IOException {
@@ -74,9 +71,9 @@ public class AuthController {
 		AuthResponse authResponse = null;
 		try {
 			authResponse = mapper.readValue(entityString, AuthResponse.class);
-			session.setAttribute(SESSION_ACCESS_TOKEN, authResponse.accessToken);
-			session.setAttribute(SESSION_EXPIRES_IN, authResponse.expiresIn);
-			session.setAttribute(SESSION_USER_ID, authResponse.userId);
+			session.setAttribute(MyGalaxy.SESSION_ACCESS_TOKEN, authResponse.accessToken);
+			session.setAttribute(MyGalaxy.SESSION_EXPIRES_IN, authResponse.expiresIn);
+			session.setAttribute(MyGalaxy.SESSION_USER_ID, authResponse.userId);
 		} catch (JsonParseException | JsonMappingException e) {
 			return "error";
 		}
