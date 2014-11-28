@@ -21,9 +21,7 @@ public class GraphController {
 	private IGraphService graphServ;
 
 	@RequestMapping(value = "graph")
-	public ModelAndView getGraph(
-			@RequestParam(required = true, value = MyGalaxy.SESSION_USER_ID) String userId,
-			HttpSession session) {
+	public ModelAndView getGraph() {
 		ModelAndView mav = new ModelAndView("graph");
 		return mav;
 	}
