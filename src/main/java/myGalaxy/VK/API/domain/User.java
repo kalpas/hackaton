@@ -49,4 +49,9 @@ public class User {
 		return true;
 	}
 
+	@Override
+	public String toString() {
+		return first_name + " " + last_name;
+	}
+
 }

@@ -21,7 +21,7 @@ public class Node implements IPassable, Serializable {
 	private String communityId;
 	private boolean passed;
 	private List<String> photos;
-	private String color;
+	private String color = "0xffffff";
 
 	public Map<String, String> additionalProperties = new HashMap<>();
 
