@@ -59,8 +59,10 @@ public class GraphService implements IGraphService {
 		
 		Graph graph = MyGalaxy.GRAPH_POOL.get(id);
 		if(graph != null) {
-			g.addAllEdges(graph.getNewEdges());
-			g.addAllNodes(graph.getNewNodes());
+			synchronized (graph) {
+				g.addAllEdges(graph.getNewEdges());
+				g.addAllNodes(graph.getNewNodes());
+			}
 		}
 		
 		return g;
