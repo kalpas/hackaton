@@ -9,7 +9,7 @@
 		<a href="https://api.instagram.com/oauth/authorize/?client_id=${insta_client_id}&redirect_uri=${insta_redirect_uri}&response_type=${insta_response_type}">Instagram Sign In</a>
 	</p>
 	<p>
-		<a href="graph">View graph</a>
+		<a href="asyncgraph">View graph</a>
 	</p>
 </body>
 </html>

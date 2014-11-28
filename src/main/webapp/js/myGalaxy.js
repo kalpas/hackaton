@@ -10,18 +10,25 @@ module.exports.main = function () {
 	fileref.setAttribute("src", "js/three.js");
 	document.getElementsByTagName("head")[0].appendChild(fileref);
 	
-	getData();
+	//var graphId = $('#graphId').val();
+	//console.info(graphId);
+	getData($('#graphId').val());
+	if (graphId) {
+		timerId = setInterval(function(){getData(graphId)},10000);
+	} else {
+		console.info('No graphId');
+	}
 
 };
 
 module.exports.buildGraph = function (data) {
 	
-	var graph = require('ngraph.graph')();
-	var threeGraphics = require('ngraph.three')(graph,{ interactive: true, container: document.getElementById('container') });
-	var THREE = threeGraphics.THREE;
-	var camera = threeGraphics.camera;
+	var graph = graph ? graph : require('ngraph.graph')();
+	var threeGraphics = threeGraphics ? threeGraphics : require('ngraph.three')(graph,{ interactive: true });
+	var THREE = THREE ? THREE : threeGraphics.THREE;
+	var camera = camera ? camera : threeGraphics.camera;
 	
-	var domEvents = new THREEx.DomEvents(camera, threeGraphics.renderer.domElement, THREE);
+	var domEvents = domEvents ? domEvents : new THREEx.DomEvents(camera, threeGraphics.renderer.domElement, THREE);
 	
 	 // tell graphics we want custom UI
 	threeGraphics.createNodeUI(function (node) {     
@@ -81,7 +88,7 @@ module.exports.buildGraph = function (data) {
 		
 		for (var i=0; i < links.length; i++) {
 			var link = threeGraphics.getLinkUI(links[i].id);
-			if (link) link.material.color.setStyle(links[i].data.color);
+			if (link) link.material.color.setHex(links[i].data.color ? links[i].data.color : 0xffffff);
 		}
 
 	}
@@ -126,19 +133,20 @@ function addEventListeners(graph) {
 
 function createGraph(graph, data) {
 	
-	if (!data.nodes || !data.edges) {
+	if (!data.nodes || !data.nodes.length || !data.edges || !data.edges.length) {
+		console.info('Graph not created!');
 		return;
 	}
 	
 	graph.beginUpdate();
 	
 	for (var i = 0; i < data.nodes.length; i++) {
-		//console.info('Node : id - ' + data.nodes[i].id);
+		console.info('Node : id - ' + data.nodes[i].id);
 		graph.addNode(data.nodes[i].id, data.nodes[i]);
 	}
 	
 	for (var i = 0; i < data.edges.length; i++) {
-		//console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
+		console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
 		graph.addLink(data.edges[i].from, data.edges[i].to, data.edges[i]);
 	}
 		
@@ -146,20 +154,20 @@ function createGraph(graph, data) {
 	console.info('Graph created!');
 }
 
-var serverData = undefined;
-
-function getData() {
-	var userId = '4293451';
-	var serverData = undefined;
+function getData(graphId) {
 	jQuery.ajax({
 		type : 'GET',
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'rest/build?userId='+userId,
+		url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
-			ngraph.buildGraph(data);
+			if (!data) {
+				clearInterval(timerId);
+			} else {
+				ngraph.buildGraph(data);
+			}
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);

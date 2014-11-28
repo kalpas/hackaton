@@ -12,10 +12,9 @@
 	<script src="js/bundle.js"></script>
 </head>
 <body onload='ngraph.main()'>
+	<input type="hidden" id="graphId" value="${graphId}" />
 	<button id="butt">Some addeble node</button>
 	<button id="removeButton">Some removable node</button>
-	Redirected because we can't set the welcome page to a virtual URL.
-	<c:redirect url="/login" />
 </body>
 
 </body>
