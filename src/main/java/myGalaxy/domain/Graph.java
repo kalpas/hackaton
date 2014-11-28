@@ -14,7 +14,7 @@ public class Graph {
 	public List<Node> getNodes() {
 		return this.nodes;
 	}
-	
+
 	public List<Edge> getEdges() {
 		return this.edges;
 	}
