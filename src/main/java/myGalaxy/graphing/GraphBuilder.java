@@ -37,6 +37,7 @@ public class GraphBuilder {
 		Edge edge = new Edge();
 		edge.setFrom(key.getId());
 		edge.setTo(value.getId());
+		edge.setId(key.getId() + value.getId());
 		return edge;
 	}
 
