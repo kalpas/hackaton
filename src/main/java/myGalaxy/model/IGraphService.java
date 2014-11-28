@@ -7,11 +7,13 @@ import myGalaxy.domain.Graph;
 import myGalaxy.domain.Node;
 
 public interface IGraphService {
-	public List<Node> getNodes();
-	public List<Node> getNodes(String id);
+	List<Node> getNodes();
+	List<Node> getNodes(String id);
 	
-	public List<Edge> getEdges();
-	public List<Edge> getEdges(String id);
+	List<Edge> getEdges();
+	List<Edge> getEdges(String id);
 	
-	public Graph buildGraph(String userId, String accessToken);
+	Graph buildGraph(String userId, String accessToken);
+	Graph asyncBuildGraph(String userId, String accessToken, String id);
+	Graph pullGraph(String id);
 }

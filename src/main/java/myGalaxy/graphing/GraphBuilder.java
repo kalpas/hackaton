@@ -28,7 +28,7 @@ public class GraphBuilder {
 		for (Map.Entry<Node, Node> entry : map.entries()) {
 			edges.add(createEdge(entry.getKey(), entry.getValue()));
 		}
-		graph.getAllEdges(edges);
+		graph.addAllEdges(edges);
 
 		return graph;
 	}

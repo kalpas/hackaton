@@ -21,7 +21,7 @@ public class Graph {
 		this.nodes.addAll(node);
 	}
 	
-	public synchronized void getAllEdges(Collection<Edge> edge) {
+	public synchronized void addAllEdges(Collection<Edge> edge) {
 		this.edges.addAll(edge);
 	}
 	
