@@ -17,11 +17,11 @@ public class Node implements IPassable, Serializable {
 	private String id;
 
 	private String name;
-	private String size;
+	private String size = Graphing.DEFAULT_NODE_SIZE.toString();
 	private String communityId;
 	private boolean passed;
 	private List<String> photos;
-	private String color;
+	private String color = "0xffffff";
 
 	public Map<String, String> additionalProperties = new HashMap<>();
 
@@ -31,7 +31,6 @@ public class Node implements IPassable, Serializable {
 	public Node(User user) {
 		this.setId(user.uid);
 		this.setName(user.first_name + " " + user.last_name);
-		this.setSize(Graphing.DEFAULT_NODE_SIZE.toString());
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
 	}
 

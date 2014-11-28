@@ -18,6 +18,7 @@ public class GraphBuilder {
 		Graph graph = new Graph();
 
 		Multimap<Node, Node> map = provider.getData(userId);
+		
 		Set<Node> userSet = new HashSet<>();
 		userSet.addAll(map.values());
 		userSet.addAll(map.keys());
