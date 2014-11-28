@@ -5,8 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Grpah will be here</title>
+	<style>
+		body { background-color: black; height: 100%; width: 100%; position: absolute; overflow: hidden; margin: 0; padding: 0;}
+	</style>
+	<script src="js/bundle.js"></script>
 </head>
-<body>
+<body onload='ngraph.main()'>
+	<button id="butt">Some addeble node</button>
+	<button id="removeButton">Some removable node</button>
+	Redirected because we can't set the welcome page to a virtual URL.
+	<c:redirect url="/login" />
+</body>
 
 </body>
 </html>
