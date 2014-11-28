@@ -1,4 +1,6 @@
-package myGalaxy.inst;
+package myGalaxy.inst.domain;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 public class User {
 	public String id;
