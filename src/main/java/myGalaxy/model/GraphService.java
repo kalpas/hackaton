@@ -61,7 +61,7 @@ public class GraphService implements IGraphService {
 
 		QueueHolder qh = MyGalaxy.GRAPH_POOL.get(id);
 		if (qh != null) {
-			if (qh.finished) {
+			if (qh.finished && qh.nodeQueue.isEmpty() && qh.edgeQueue.isEmpty()) {
 				return null;
 			} else {
 				synchronized (qh.nodeQueue) {
