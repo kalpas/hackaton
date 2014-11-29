@@ -37,7 +37,7 @@
 		<c:when test="${empty sessionScope.instuser and empty sessionScope.user}">
 		</c:when>
 		<c:otherwise>
-		<a href="asyncgraph">View graph</a>
+		<a href="graph">View graph</a>
 		</c:otherwise>
 		</c:choose>
 	</p>
