@@ -45,10 +45,6 @@ public class QueuedVKDataProvider {
 			Node center = new Node();// FIXME implement user.get
 			center.setId(userId);
 
-			// if (!connections.containsKey(center)) {
-			// queues.nodeQueue.add(center);
-			// }
-
 			List<User> set = friends.get(center.getId());
 			Set<Node> nodes = new HashSet<>();
 			for (User user : set) {
