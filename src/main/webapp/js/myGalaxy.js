@@ -10,20 +10,23 @@ module.exports.main = function () {
 	fileref.setAttribute("src", "js/three.js");
 	document.getElementsByTagName("head")[0].appendChild(fileref);
 	
-	var graphId = $('#graphId').val();
-	console.info(graphId);
-	if (graphId) {
-		getData(graphId);
-		timerId = setInterval(function(){getData(graphId)},10000);
-	} else {
-		console.info('No graphId');
-	}
+	setTimeout(function(){
+		var graphId = $('#graphId').val();
+		console.info(graphId);
+		if (graphId) {
+			getData(graphId);
+			//timerId = setInterval(function(){getData(graphId)},10000);
+		} else {
+			console.info('No graphId');
+		}
+	}, 500);
 
 };
 
 module.exports.buildGraph = function (data) {
 	
 	var graph = graph ? graph : require('ngraph.graph')();
+	var layout = layout ? layout : require('ngraph.forcelayout3d')(graph, {gravity: 1.2, theta: 0.2, dragCoeff: 0.9, timeStep : 1 } ); 
 	var threeGraphics = threeGraphics ? threeGraphics : require('ngraph.three')(graph,{ interactive: true });
 	var THREE = THREE ? THREE : threeGraphics.THREE;
 	var camera = camera ? camera : threeGraphics.camera;
@@ -33,7 +36,7 @@ module.exports.buildGraph = function (data) {
 	 // tell graphics we want custom UI
 	threeGraphics.createNodeUI(function (node) {     
 		var nodeGeometry = new THREE.SphereGeometry(node.data.size);
-		var nodeMaterial = new THREE.MeshBasicMaterial(/*{ color: node.data.color }*/);
+		var nodeMaterial = new THREE.MeshBasicMaterial({ color: node.data.color });
 		
 		var result = new THREE.Mesh(nodeGeometry, nodeMaterial);
 		result['nodeId'] =  node.id;
@@ -47,14 +50,24 @@ module.exports.buildGraph = function (data) {
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-		var linkMaterial = new THREE.LineBasicMaterial(/*{ color: link.data.color }*/);
+		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color });
 		return new THREE.Line(linkGeometry, linkMaterial);
   });
+	
+	layout.step();
+	
+//	graph.forEachNode(function (node) {
+//	    var pos = layout.getNodePosition(node.id);
+//		layout.pinNode(node,true);
+//		layout.setNodePosition(node.id, pos.x, pos.y, pos.z);
+//	  });
 	
 	createGraph(graph,data);
 	addEventListeners(graph);
 	
+	
 	threeGraphics.run();
+	
 	
 	function onMouseOver(e) {
 		var nodeId = e.target.nodeId;
@@ -88,7 +101,7 @@ module.exports.buildGraph = function (data) {
 		
 		for (var i=0; i < links.length; i++) {
 			var link = threeGraphics.getLinkUI(links[i].id);
-			if (link) link.material.color.setHex(links[i].data.color ? links[i].data.color : 0xffffff);
+			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'white');
 		}
 
 	}
@@ -160,7 +173,8 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'rest/pull?id='+graphId,
+		url : 'js/4080446.json',
+		//url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
 			if (!data) {
@@ -172,6 +186,7 @@ function getData(graphId) {
 		error : function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
 			alert('Error occured!');
+			clearInterval(timerId);
 		} 
 	});
 }
