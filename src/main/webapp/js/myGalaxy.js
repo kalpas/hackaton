@@ -51,7 +51,7 @@ module.exports.buildGraph = function (data) {
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color });
+		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color, transparent: true });
 		return new THREE.Line(linkGeometry, linkMaterial);
   });
 	
@@ -259,7 +259,7 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'js/final.json',
+		url : 'js/4080446.json',
 		//url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
