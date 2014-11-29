@@ -37,9 +37,6 @@ public class VkDataProvider implements DataProvider {
 			populateConnections4User(connections, node, nodes);
 		}
 		
-		
-		
-		
 		return connections;
 	}
 

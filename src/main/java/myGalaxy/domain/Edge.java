@@ -11,7 +11,7 @@ public class Edge implements IPassable, Serializable {
 	private String from;
 	private String to;
 	private boolean passed;
-	private String color = "0xffffff";
+	private String color = "#ffffff";
 
 	public Edge() {
 	}

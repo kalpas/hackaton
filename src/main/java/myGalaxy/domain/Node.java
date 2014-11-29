@@ -25,6 +25,9 @@ public class Node implements IPassable, Serializable {
 	private String color = generateColor();
 
 	public Map<String, String> additionalProperties = new HashMap<>();
+	
+	public transient static final String DEGREE = "degree";
+	public transient static final String INSTA = "insta";
 
 	public Node() {
 
@@ -35,7 +38,7 @@ public class Node implements IPassable, Serializable {
 		int r = rand.nextInt(127) +128;
 		int g = rand.nextInt(127) +128;
 		int b = rand.nextInt(127) +128;
-		return "0x"+ Integer.toHexString(r)+Integer.toHexString(g)+Integer.toHexString(b);
+		return "#"+ Integer.toHexString(r)+Integer.toHexString(g)+Integer.toHexString(b);
 		
 	}
 
@@ -43,6 +46,7 @@ public class Node implements IPassable, Serializable {
 		this.setId(user.uid);
 		this.setName(user.first_name + " " + user.last_name);
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
+		this.additionalProperties.put(INSTA, user.instagram);
 	}
 
 	public Node(myGalaxy.inst.domain.User user) {
