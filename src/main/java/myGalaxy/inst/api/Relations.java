@@ -12,15 +12,6 @@ import org.springframework.web.client.RestTemplate;
 @Component
 public class Relations {
 	
-	/*@Autowired
-	private GenericHttpMessageConverter<Object> jsonConverter;*/
-	/*HttpClient httpclient = new DefaultHttpClient();
-		HttpGet httpGet = new HttpGet("https://api.instagram.com/v1/users/" + userId
-				+ "/follows?access_token=" + accessToken);
-		
-		HttpResponse httpResponse = httpclient.execute(httpGet);
-		String jsonString = EntityUtils.toString(httpResponse.getEntity());*/
-	
 	public InstResponse getFollowers(String userId, String accessToken) {
 		MultiValueMap<String, String> headers = new HttpHeaders();
 		HttpEntity<Object> httpEntity = new HttpEntity<Object>(headers);

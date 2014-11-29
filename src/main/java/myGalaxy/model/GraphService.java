@@ -1,7 +1,6 @@
 package myGalaxy.model;
 
 import java.util.List;
-import java.util.Queue;
 
 import myGalaxy.MyGalaxy;
 import myGalaxy.VK.VkDataProvider;
@@ -13,11 +12,16 @@ import myGalaxy.graphing.GraphBuilder;
 import myGalaxy.graphing.QueueHolder;
 import myGalaxy.graphing.QueuedVKDataProvider;
 import myGalaxy.inst.InstagramDataProvider;
+import myGalaxy.inst.api.Relations;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class GraphService implements IGraphService {
+
+	@Autowired
+	private Relations relations;
 
 	@Override
 	public List<Node> getNodes() {
@@ -52,7 +56,7 @@ public class GraphService implements IGraphService {
 	
 	public Graph buildInstGraph(String userId, String accessToken) {
 		GraphBuilder builder = new GraphBuilder();
-		DataProvider provider = new InstagramDataProvider(accessToken);
+		DataProvider provider = new InstagramDataProvider(accessToken,relations);
 
 		return builder.build(provider, userId);
 	}
