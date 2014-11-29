@@ -34,8 +34,8 @@ module.exports.buildGraph = function (data) {
 	var domEvents = domEvents ? domEvents : new THREEx.DomEvents(camera, threeGraphics.renderer.domElement, THREE);
 	
 	 // tell graphics we want custom UI
-	threeGraphics.createNodeUI(function (node) {     
-		var nodeGeometry = new THREE.SphereGeometry(node.data.size);
+	threeGraphics.createNodeUI(function (node) {    
+		var nodeGeometry = node.data.additionalProperties.type == 'vk' ? new THREE.SphereGeometry(node.data.size) : new THREE.BoxGeometry(Math.round(node.data.size),Math.round(node.data.size),Math.round(node.data.size));
 		var nodeMaterial = new THREE.MeshBasicMaterial({ color: node.data.color });
 		
 		var result = new THREE.Mesh(nodeGeometry, nodeMaterial);
