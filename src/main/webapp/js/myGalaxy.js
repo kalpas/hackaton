@@ -26,7 +26,7 @@ module.exports.main = function () {
 module.exports.buildGraph = function (data) {
 	
 	var graph = graph ? graph : require('ngraph.graph')();
-	var layout = layout ? layout : require('ngraph.forcelayout3d')(graph, {gravity: 1.2, theta: 0.2, dragCoeff: 0.9, timeStep : 1 } ); 
+	var layout = layout ? layout : require('ngraph.forcelayout3d')(graph, {springLength: 50, gravity: -1.2, theta: 0.5, dragCoeff: 0.5, timeStep : 1 } ); 
 	var threeGraphics = threeGraphics ? threeGraphics : require('ngraph.three')(graph,{ interactive: true });
 	var THREE = THREE ? THREE : threeGraphics.THREE;
 	var camera = camera ? camera : threeGraphics.camera;
@@ -63,11 +63,9 @@ module.exports.buildGraph = function (data) {
 //	  });
 	
 	createGraph(graph,data);
-	addEventListeners(graph);
-	
 	
 	threeGraphics.run();
-	
+	camera.position.z = 400;
 	
 	function onMouseOver(e) {
 		var nodeId = e.target.nodeId;
@@ -105,43 +103,6 @@ module.exports.buildGraph = function (data) {
 		}
 
 	}
-	
-    
-    
-function addEventListeners(graph) {
-	var el = document.getElementById('butt');
-	el.addEventListener("click",function(e) {
-		graph.beginUpdate();
-		
-		var node = graph.addNode(9,{'id':'1','name':'first','size':'8','color':'white'});
-
-        if(graph.getNode(3) && graph.getNode(9))
-        {
-            graph.addLink(3,9,{'id':'8','fromId':'3','toId':'9','color':'purple','linewidth':'1'});
-        }
-		
-		graph.endUpdate();
-	});
-    
-    var rel = document.getElementById('removeButton');
-    rel.addEventListener("click",function(e) {
-		graph.beginUpdate();
-		console.info('to remove');
-		graph.forEachNode(function(node){
-            if(node.data.selected == true)
-            {
-                console.info('nodeId removed ' + node.id);
-                var toDel = threeGraphics.getNodeUI(node.id);
-                domEvents.removeEventListener(toDel, 'mouseover',onMouseOver);
-                domEvents.removeEventListener(toDel, 'click',onMouseClick);
-                domEvents.removeEventListener(toDel, 'mouseout',onMouseOut);
-                graph.removeNode(node.id);
-            }
-        });
-		
-		graph.endUpdate();
-	});
-}
 };
 
 function createGraph(graph, data) {
