@@ -23,7 +23,7 @@ public class TransmitController {
 
 	@Autowired
 	private IGraphService graphServ;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/node", method = RequestMethod.GET)
 	public List<Node> getNode() {
@@ -44,20 +44,40 @@ public class TransmitController {
 		return this.graphServ.buildGraph(userId, String.valueOf(session
 				.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)));
 	}
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/instbuild", method = RequestMethod.GET)
 	public Graph instLoadGraph(
 			@RequestParam(required = false, value = "userId") String userId,
 			HttpSession session) {
-		return this.graphServ.buildInstGraph(userId != null ? userId : String.valueOf(session
-				.getAttribute(MyGalaxy.INST_SESSION_USER_ID)), String.valueOf(session
-				.getAttribute(MyGalaxy.INST_SESSION_ACCESS_TOKEN)));
+		return this.graphServ.buildInstGraph(
+				userId != null ? userId : String.valueOf(session
+						.getAttribute(MyGalaxy.INST_SESSION_USER_ID)),
+				String.valueOf(session
+						.getAttribute(MyGalaxy.INST_SESSION_ACCESS_TOKEN)));
 	}
-	
+
+	@ResponseBody
+	@RequestMapping(value = "/joined", method = RequestMethod.GET)
+	public Graph joinedLoadGraph(
+			@RequestParam(required = false, value = "vkUserId") String vkUserId,
+			@RequestParam(required = false, value = "instUserId") String instUserId,
+			HttpSession session) {
+		String instId = instUserId != null ? instUserId : String
+				.valueOf(session.getAttribute(MyGalaxy.INST_SESSION_USER_ID));
+		String vkId = vkUserId != null ? vkUserId : String.valueOf(session
+				.getAttribute(MyGalaxy.VK_SESSION_USER_ID));
+		return this.graphServ.joinedGraph(vkId, instId,
+				String.valueOf(session
+						.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)),
+				String.valueOf(session
+						.getAttribute(MyGalaxy.INST_SESSION_ACCESS_TOKEN)));
+	}
+
 	@ResponseBody
 	@RequestMapping(value = "/pull", method = RequestMethod.GET)
-	public Graph pullGraph(@RequestParam(required = true, value = "id") String id) {
+	public Graph pullGraph(
+			@RequestParam(required = true, value = "id") String id) {
 		return this.graphServ.pullGraph(id);
 	}
 }

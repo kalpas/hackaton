@@ -6,6 +6,7 @@ import java.util.List;
 import myGalaxy.domain.Node;
 import myGalaxy.graphing.DataProvider;
 import myGalaxy.inst.api.Relations;
+import myGalaxy.inst.api.Users;
 import myGalaxy.inst.domain.InstResponse;
 import myGalaxy.inst.domain.User;
 
@@ -20,6 +21,7 @@ public class InstagramDataProvider implements DataProvider{
 	public InstagramDataProvider(String accessToken, Relations relations) {
 		this.accessToken = accessToken;
 		this.relations = relations;
+		
 	}
 	
 	@Override

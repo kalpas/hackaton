@@ -23,9 +23,6 @@ import com.google.common.collect.Multimap;
 
 public class GraphBuilder {
 	
-	@Autowired
-	private Users instaUsersApi;
-	
 	private static final Double maxSize = 15.0;
 
 
@@ -53,10 +50,10 @@ public class GraphBuilder {
 		return graph;
 	}
 	
-	public Graph build(VkDataProvider vkProvider, InstagramDataProvider instagramProvider, String userId, String accessToken) {
+	public Graph build(VkDataProvider vkProvider, InstagramDataProvider instagramProvider, String vkUserId,String instaUserId, String accessToken,Users instaUsersApi) {
 		Graph graph = new Graph();
-		Multimap<Node, Node> vkMap = vkProvider.getData(userId);
-		Multimap<Node, Node> instaMap = instagramProvider.getData(userId);
+		Multimap<Node, Node> vkMap = vkProvider.getData(vkUserId);
+		Multimap<Node, Node> instaMap = instagramProvider.getData(instaUserId);
 		
 		for(Node vkUser: vkMap.keySet()){
 			String instaAccount = vkUser.additionalProperties.get(Node.INSTA);

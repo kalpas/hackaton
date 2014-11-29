@@ -112,7 +112,7 @@ public class AuthController {
 		try {
 			authResponse = mapper.readValue(entityString, myGalaxy.inst.AuthResponse.class);
 			session.setAttribute(MyGalaxy.INST_SESSION_ACCESS_TOKEN, authResponse.accessToken);
-			session.setAttribute(MyGalaxy.INST_SESSION_USER_ID, authResponse.user);
+			session.setAttribute(MyGalaxy.INST_SESSION_USER_ID, authResponse.user.id);
 		} catch (JsonParseException | JsonMappingException e) {
 			return "error";
 		}
