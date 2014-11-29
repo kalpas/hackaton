@@ -21,7 +21,7 @@ public class GraphController {
 	private IGraphService graphServ;
 
 	@RequestMapping(value = "graph")
-	public ModelAndView getGraph() {
+	public ModelAndView getGraph(HttpSession session) {
 		ModelAndView mav = new ModelAndView("graph");
 
 		String id = String.valueOf(new Random(1000).nextLong());
