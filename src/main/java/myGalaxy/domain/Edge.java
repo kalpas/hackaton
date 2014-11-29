@@ -12,7 +12,7 @@ public class Edge implements IPassable, Serializable {
 	private String to;
 	private boolean passed;
 	private Float weight = 1f;
-	private String color = "#0000CC";
+	private String color = "#440077";
 
 	public Edge() {
 	}

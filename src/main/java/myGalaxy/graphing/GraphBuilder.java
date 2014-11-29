@@ -44,7 +44,9 @@ public class GraphBuilder {
 
 		List<Edge> edges = new ArrayList<>();
 		for (Map.Entry<Node, Node> entry : map.entries()) {
-			edges.add(new Edge(entry.getKey(), entry.getValue()));
+			Edge edge = new Edge(entry.getKey(), entry.getValue());
+			edge.setColor(entry.getKey().getColor());
+			edges.add(edge);
 		}
 		graph.addAllEdges(edges);
 
@@ -58,21 +60,21 @@ public class GraphBuilder {
 
 	private void colorize(Graph graph, CommunityStructure structure) {
 		String[] colors = new String[structure.N];
-		for(int i = 0; i < structure.N; i++){
-			colors[i]= generateColor();
+		for (int i = 0; i < structure.N; i++) {
+			colors[i] = generateColor();
 		}
-		
-		for(Node n : graph.getNodes()){
+
+		for (Node n : graph.getNodes()) {
 			n.setColor(colors[n.getCommunityId()]);
 		}
-		
+
 	}
 
-	private String generateColor() {
+	public String generateColor() {
 		Random rand = new Random();
-		int r = rand.nextInt(127) + 64;
-		int g = rand.nextInt(127) + 64;
-		int b = rand.nextInt(127) + 64;
+		int r = rand.nextInt(255);
+		int g = rand.nextInt(255);
+		int b = rand.nextInt(255);
 		return "#" + Integer.toHexString(r) + Integer.toHexString(g)
 				+ Integer.toHexString(b);
 	}
@@ -118,7 +120,9 @@ public class GraphBuilder {
 
 		List<Edge> edges = new ArrayList<>();
 		for (Map.Entry<Node, Node> entry : vkMap.entries()) {
-			edges.add(new Edge(entry.getKey(), entry.getValue()));
+			Edge edge = new Edge(entry.getKey(), entry.getValue());
+			edge.setColor(entry.getKey().getColor());
+			edges.add(edge);
 		}
 		graph.addAllEdges(edges);
 
