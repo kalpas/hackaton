@@ -31,6 +31,7 @@ public class Node implements IPassable, Serializable {
 	public transient static final String INSTA = "insta";
 	public transient static final String VK = "vk";
 	public transient static final String TYPE = "type";
+	public transient static final String LINK = "link";
 	public transient static final String MODULARITY_CLASS = "modularity_class";
 
 	public Node() {
@@ -53,6 +54,7 @@ public class Node implements IPassable, Serializable {
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
 		this.additionalProperties.put(INSTA, user.instagram);
 		this.additionalProperties.put(TYPE, VK);
+		this.additionalProperties.put(LINK, "http://vk.com/id"+this.getId());
 	}
 
 	public Node(myGalaxy.inst.domain.User user) {
@@ -60,6 +62,8 @@ public class Node implements IPassable, Serializable {
 		this.setName(user.full_name);
 		this.setPhotos(Arrays.asList(user.profile_picture));
 		this.additionalProperties.put(TYPE, INSTA);
+		this.additionalProperties.put(LINK, "http://instagram.com/"+user.username);
+		this.additionalProperties.put("username", user.username);
 	}
 
 	public boolean isPassed() {

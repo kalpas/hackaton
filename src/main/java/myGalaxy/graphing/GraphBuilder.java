@@ -72,9 +72,9 @@ public class GraphBuilder {
 
 	public String generateColor() {
 		Random rand = new Random();
-		int r = rand.nextInt(255);
-		int g = rand.nextInt(255);
-		int b = rand.nextInt(255);
+		int r = rand.nextInt(170);
+		int g = rand.nextInt(170);
+		int b = rand.nextInt(170);
 		return "#" + Integer.toHexString(r) + Integer.toHexString(g)
 				+ Integer.toHexString(b);
 	}
