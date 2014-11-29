@@ -6,7 +6,8 @@
     "ngraph.generators": "~0.0",
     "ngraph.three": "0.0.11",
     "query-string": "~0.1.1",
-    "ngraph.graph": "0.0.4"
+    "ngraph.graph": "0.0.4",
+    "ngraph.forcelayout3d" : "0.0.5"
   },
   "devDependencies": {
     "browserify": "~3.18.0"
