@@ -73,7 +73,7 @@ module.exports.buildGraph = function (data) {
 		
 		for (var i=0; i < links.length; i++) {
 			var link = threeGraphics.getLinkUI(links[i].id);
-			if (link) link.material.color.setHex(0xff0000);
+			if (link) link.material.color.setStyle('#b14b56');
 		}
 		showName(node.data.name, e);
 	}
@@ -191,7 +191,7 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'js/instbuild.json',
+		url : 'js/4080446.json',
 		//url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
