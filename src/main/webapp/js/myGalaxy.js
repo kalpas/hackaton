@@ -34,12 +34,13 @@ module.exports.buildGraph = function (data) {
 	var domEvents = domEvents ? domEvents : new THREEx.DomEvents(camera, threeGraphics.renderer.domElement, THREE);
 	
 	 // tell graphics we want custom UI
-	threeGraphics.createNodeUI(function (node) {    
+	threeGraphics.createNodeUI(function (node) {     
 		var nodeGeometry = node.data.additionalProperties.type == 'vk' ? new THREE.SphereGeometry(node.data.size) : new THREE.BoxGeometry(Math.round(node.data.size),Math.round(node.data.size),Math.round(node.data.size));
 		var nodeMaterial = new THREE.MeshBasicMaterial({ color: node.data.color });
 		
 		var result = new THREE.Mesh(nodeGeometry, nodeMaterial);
 		result['nodeId'] =  node.id;
+		node.data['selected'] = false;
 		domEvents.addEventListener(result, 'mouseover',onMouseOver);
 		domEvents.addEventListener(result, 'mouseout',onMouseOut);
         domEvents.addEventListener(result, 'click',onMouseClick);
@@ -50,7 +51,7 @@ module.exports.buildGraph = function (data) {
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color, transparent: true });
+		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color });
 		return new THREE.Line(linkGeometry, linkMaterial);
   });
 	
@@ -61,7 +62,6 @@ module.exports.buildGraph = function (data) {
 	
 	
 	threeGraphics.run();
-	
 	
 	function onMouseOver(e) {
 		var nodeId = e.target.nodeId;
@@ -75,30 +75,52 @@ module.exports.buildGraph = function (data) {
 			var link = threeGraphics.getLinkUI(links[i].id);
 			if (link) link.material.color.setStyle('#b14b56');
 		}
-		showName(node.data.name, e);
+		if(node.data['selected']  != true)
+		{
+			showName(node.data.name, e);
+		}
 	}
     
 	function onMouseClick(e) {
 		var nodeId = e.target.nodeId;
 		var node = graph.getNode(nodeId);
-        graph.forEachNode(function(nodes){
-        	 if(nodes.data['selected'] == true)
-        	 {
-                 nodes.data['selected'] = false;
-                 var links = nodes.links;
-         		for (var i=0; i < links.length; i++) {
-        			var link = threeGraphics.getLinkUI(links[i].id);
-        			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
-        		}
-        	 }
-        });
-		node.data['selected'] = true;
-        var links = node.links;
- 		for (var i=0; i < links.length; i++) {
-			var link = threeGraphics.getLinkUI(links[i].id);
-			if (link) link.material.color.setHex(0xff0000);
+		if(node.data['selected'] != true)
+		{
+	        graph.forEachNode(function(nodes){
+	        	 if(nodes.data['selected'] == true)
+	        	 {
+	                 nodes.data['selected'] = false;
+	                 var links = nodes.links;
+	         		for (var i=0; i < links.length; i++) {
+	        			var link = threeGraphics.getLinkUI(links[i].id);
+	        			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
+	        		}
+	         		hideDetailsInfo();
+	        	 }
+	        	 
+	        });
+			node.data['selected'] = true;
+	        var links = node.links;
+	 		for (var i=0; i < links.length; i++) {
+				var link = threeGraphics.getLinkUI(links[i].id);
+				if (link) link.material.color.setHex(0xff0000);
+			}
+	 		hideName();
+	 		showDetailsInfo(node,e);
+	 		
+	        console.info('nodeId selected ' + node.id);
 		}
-        console.info('nodeId selected ' + node.id);
+		else
+		{
+            node.data['selected'] = false;
+            var links = node.links;
+    		for (var i=0; i < links.length; i++) 
+    		{
+    			var link = threeGraphics.getLinkUI(links[i].id);
+    			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
+    		}
+    		hideDetailsInfo();
+		}
 	}
 	
 	function onMouseOut(e) {
@@ -129,13 +151,59 @@ function showName(name, event) {
 	newDiv.innerHTML = name;
 	
 	newDiv.style.position = "absolute";
-	newDiv.style.left = event.origDomEvent.clientX+'px';
-	newDiv.style.top = event.origDomEvent.clientY+'px';
+	newDiv.style.left = (event.origDomEvent.clientX + 10)+'px';
+	newDiv.style.top = (event.origDomEvent.clientY - 10)+'px';
 	newDiv.style.color = 'white';
 	newDiv.style.fontWeight="bold";
 	newDiv.style.fontSize = '26px';
 	
 	document.body.appendChild(newDiv);
+}
+
+function showDetailsInfo(node, event) {
+	var newDiv = document.createElement('div');
+	newDiv.className = 'div-info';
+	newDiv.name = 'nameDiv';
+	newDiv.innerHTML = name;
+	
+	newDiv.style.position = "absolute";
+	newDiv.style.right = '0px';
+	newDiv.style.top = '0px';
+	newDiv.style.fontSize = '24px';
+	newDiv.style.color = 'white';
+	newDiv.style.backgroundColor = '#101010';
+	newDiv.align = 'center';
+	
+	newDiv.style.padding = '5px';
+	newDiv.style.borderRadius = '10px';
+
+	var divText = document.createElement("p");
+	divText.height = '100px';
+	divText.textContent = node.data.name;
+	divText.align = 'center';
+	newDiv.appendChild(divText);
+	
+	if(node.data.photos && node.data.photos[0])
+	{
+		var img = document.createElement("img");
+		img.src = node.data.photos[0];
+		img.style.width="200";
+		img.style.height = '400';
+		newDiv.appendChild(img);
+	}
+	
+	document.body.appendChild(newDiv);
+}
+
+function hideDetailsInfo() {
+	var elems = document.getElementsByClassName('div-info');
+	
+	if(elems)
+	{
+		for (var i = 0; i < elems.length; i++) {
+			document.body.removeChild(elems[i]);
+		}
+	}
 }
 
 function hideName() {
@@ -191,7 +259,7 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'js/4080446.json',
+		url : 'js/final.json',
 		//url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
