@@ -11,6 +11,7 @@ import myGalaxy.VK.API.domain.User;
 import myGalaxy.graphing.Graphing;
 
 public class Node implements IPassable, Serializable {
+
 	/**
 	 * 
 	 */
@@ -19,15 +20,18 @@ public class Node implements IPassable, Serializable {
 
 	private String name;
 	private String size = Graphing.DEFAULT_NODE_SIZE.toString();
-	private String communityId;
+	private int communityId;
 	private boolean passed;
 	private List<String> photos;
 	private String color = generateColor();
 
 	public Map<String, String> additionalProperties = new HashMap<>();
-	
+
 	public transient static final String DEGREE = "degree";
 	public transient static final String INSTA = "insta";
+	public transient static final String VK = "vk";
+	public transient static final String TYPE = "type";
+	public transient static final String MODULARITY_CLASS = "modularity_class";
 
 	public Node() {
 
@@ -35,11 +39,12 @@ public class Node implements IPassable, Serializable {
 
 	private String generateColor() {
 		Random rand = new Random();
-		int r = rand.nextInt(127) +128;
-		int g = rand.nextInt(127) +128;
-		int b = rand.nextInt(127) +128;
-		return "#"+ Integer.toHexString(r)+Integer.toHexString(g)+Integer.toHexString(b);
-		
+		int r = rand.nextInt(127) + 128;
+		int g = rand.nextInt(127) + 128;
+		int b = rand.nextInt(127) + 128;
+		return "#" + Integer.toHexString(r) + Integer.toHexString(g)
+				+ Integer.toHexString(b);
+
 	}
 
 	public Node(User user) {
@@ -47,12 +52,14 @@ public class Node implements IPassable, Serializable {
 		this.setName(user.first_name + " " + user.last_name);
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
 		this.additionalProperties.put(INSTA, user.instagram);
+		this.additionalProperties.put(TYPE, VK);
 	}
 
 	public Node(myGalaxy.inst.domain.User user) {
 		this.setId(user.id);
 		this.setName(user.full_name);
 		this.setPhotos(Arrays.asList(user.profile_picture));
+		this.additionalProperties.put(TYPE, INSTA);
 	}
 
 	public boolean isPassed() {
@@ -87,11 +94,11 @@ public class Node implements IPassable, Serializable {
 		this.size = size;
 	}
 
-	public String getCommunityId() {
+	public int getCommunityId() {
 		return communityId;
 	}
 
-	public void setCommunityId(String communityId) {
+	public void setCommunityId(int communityId) {
 		this.communityId = communityId;
 	}
 

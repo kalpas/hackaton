@@ -11,7 +11,8 @@ public class Edge implements IPassable, Serializable {
 	private String from;
 	private String to;
 	private boolean passed;
-	private String color = "#ffffff";
+	private Float weight = 1f;
+	private String color = "#0000CC";
 
 	public Edge() {
 	}
@@ -60,6 +61,14 @@ public class Edge implements IPassable, Serializable {
 
 	public void setColor(String color) {
 		this.color = color;
+	}
+
+	public Float getWeight() {
+		return weight;
+	}
+
+	public void setWeight(Float weight) {
+		this.weight = weight;
 	}
 
 	@Override

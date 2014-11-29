@@ -102,6 +102,13 @@
 			<artifactId>jsonschema2pojo-core</artifactId>
 			<version>0.4.6</version>
 		</dependency>
+		
+		<!-- TEST. DO NOT COMMIT -->
+		<!-- <dependency>
+            <groupId>org.gephi</groupId>
+            <artifactId>graphstore-api</artifactId>
+            <version>0.1-SNAPSHOT</version>
+        </dependency> -->
 
 	</dependencies>
 </project>
