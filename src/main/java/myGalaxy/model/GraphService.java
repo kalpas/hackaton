@@ -13,6 +13,7 @@ import myGalaxy.graphing.QueueHolder;
 import myGalaxy.graphing.QueuedVKDataProvider;
 import myGalaxy.inst.InstagramDataProvider;
 import myGalaxy.inst.api.Relations;
+import myGalaxy.inst.api.Users;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -22,6 +23,9 @@ public class GraphService implements IGraphService {
 
 	@Autowired
 	private Relations relations;
+	
+	@Autowired
+	private Users users;
 
 	@Override
 	public List<Node> getNodes() {
@@ -53,10 +57,11 @@ public class GraphService implements IGraphService {
 
 		return builder.build(provider, userId);
 	}
-	
+
 	public Graph buildInstGraph(String userId, String accessToken) {
 		GraphBuilder builder = new GraphBuilder();
-		DataProvider provider = new InstagramDataProvider(accessToken,relations);
+		DataProvider provider = new InstagramDataProvider(accessToken,
+				relations);
 
 		return builder.build(provider, userId);
 	}
@@ -66,6 +71,18 @@ public class GraphService implements IGraphService {
 
 		QueueHolder qh = provider.submitTask(userId);
 		MyGalaxy.GRAPH_POOL.put(id, qh);
+	}
+
+	public Graph joinedGraph(String vkUserId, String instUserId,
+			String vkAccessToken, String instaAccessToken) {
+		GraphBuilder builder = new GraphBuilder();
+		InstagramDataProvider instaProvider = new InstagramDataProvider(
+				instaAccessToken, relations);
+		VkDataProvider vkProvider = new VkDataProvider(vkAccessToken);
+
+		return builder.build(vkProvider, instaProvider, vkUserId, instUserId,
+				instaAccessToken, users);
+
 	}
 
 	public Graph pullGraph(String id) {
