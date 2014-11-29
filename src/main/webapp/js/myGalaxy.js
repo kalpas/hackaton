@@ -177,11 +177,24 @@ function showDetailsInfo(node, event) {
 	newDiv.style.padding = '5px';
 	newDiv.style.borderRadius = '10px';
 
-	var divText = document.createElement("p");
-	divText.height = '100px';
-	divText.textContent = node.data.name;
-	divText.align = 'center';
-	newDiv.appendChild(divText);
+	if(node.data.additionalProperties.link)
+	{
+		var divText = document.createElement("a");
+		divText.height = '100px';
+		divText.textContent = node.data.name;
+		divText.href = node.data.additionalProperties.link;
+		newDiv.appendChild(divText);
+		var pp = document.createElement("p");
+		newDiv.appendChild(pp);
+	}
+	else
+	{
+		var divText = document.createElement("p");
+		divText.height = '100px';
+		divText.textContent = node.data.name;
+		divText.align = 'center';
+		newDiv.appendChild(divText);
+	}
 	
 	if(node.data.photos && node.data.photos[0])
 	{
