@@ -50,7 +50,7 @@ public class TransmitController {
 	public Graph instLoadGraph(
 			@RequestParam(required = false, value = "userId") String userId,
 			HttpSession session) {
-		return this.graphServ.buildGraph(userId != null ? userId : String.valueOf(session
+		return this.graphServ.buildInstGraph(userId != null ? userId : String.valueOf(session
 				.getAttribute(MyGalaxy.INST_SESSION_USER_ID)), String.valueOf(session
 				.getAttribute(MyGalaxy.INST_SESSION_ACCESS_TOKEN)));
 	}
