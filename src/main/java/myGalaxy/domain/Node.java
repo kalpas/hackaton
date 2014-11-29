@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import myGalaxy.VK.API.domain.User;
 import myGalaxy.graphing.Graphing;
@@ -21,11 +22,21 @@ public class Node implements IPassable, Serializable {
 	private String communityId;
 	private boolean passed;
 	private List<String> photos;
-	private String color = "0xffffff";
+	private String color = generateColor();
 
 	public Map<String, String> additionalProperties = new HashMap<>();
 
 	public Node() {
+
+	}
+
+	private String generateColor() {
+		Random rand = new Random();
+		int r = rand.nextInt(127) +128;
+		int g = rand.nextInt(127) +128;
+		int b = rand.nextInt(127) +128;
+		return "0x"+ Integer.toHexString(r)+Integer.toHexString(g)+Integer.toHexString(b);
+		
 	}
 
 	public Node(User user) {
@@ -33,7 +44,7 @@ public class Node implements IPassable, Serializable {
 		this.setName(user.first_name + " " + user.last_name);
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
 	}
-	
+
 	public Node(myGalaxy.inst.domain.User user) {
 		this.setId(user.id);
 		this.setName(user.full_name);

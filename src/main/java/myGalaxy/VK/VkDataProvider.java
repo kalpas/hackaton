@@ -12,7 +12,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 public class VkDataProvider implements DataProvider {
-
+	
 	private final Friends friends;
 
 	public VkDataProvider(String accessToken) {
@@ -36,8 +36,14 @@ public class VkDataProvider implements DataProvider {
 		for (Node node : nodes) {
 			populateConnections4User(connections, node, nodes);
 		}
+		
+		
+		
+		
 		return connections;
 	}
+
+	
 
 	private List<Node> populateConnections4User(
 			Multimap<Node, Node> connections, Node center, List<Node> all) {
