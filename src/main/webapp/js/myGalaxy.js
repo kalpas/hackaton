@@ -26,7 +26,7 @@ module.exports.main = function () {
 module.exports.buildGraph = function (data) {
 	
 	var graph = graph ? graph : require('ngraph.graph')();
-	var layout = layout ? layout : require('ngraph.forcelayout3d')(graph, {springLength: 50, gravity: -1.2, theta: 0.5, dragCoeff: 0.5, timeStep : 1 } ); 
+	var layout = layout ? layout : require('ngraph.forcelayout3d')(graph, {gravity: 1.2, theta: 0.2, dragCoeff: 0.9, timeStep : 1 } ); 
 	var threeGraphics = threeGraphics ? threeGraphics : require('ngraph.three')(graph,{ interactive: true });
 	var THREE = THREE ? THREE : threeGraphics.THREE;
 	var camera = camera ? camera : threeGraphics.camera;
@@ -64,8 +64,9 @@ module.exports.buildGraph = function (data) {
 	
 	createGraph(graph,data);
 	
+	
 	threeGraphics.run();
-	camera.position.z = 400;
+	
 	
 	function onMouseOver(e) {
 		var nodeId = e.target.nodeId;
@@ -79,16 +80,29 @@ module.exports.buildGraph = function (data) {
 			var link = threeGraphics.getLinkUI(links[i].id);
 			if (link) link.material.color.setHex(0xff0000);
 		}
+		showName(node.data.name, e);
 	}
     
 	function onMouseClick(e) {
 		var nodeId = e.target.nodeId;
 		var node = graph.getNode(nodeId);
-        
         graph.forEachNode(function(nodes){
-             nodes.data['selected'] = false;
+        	 if(nodes.data['selected'] == true)
+        	 {
+                 nodes.data['selected'] = false;
+                 var links = nodes.links;
+         		for (var i=0; i < links.length; i++) {
+        			var link = threeGraphics.getLinkUI(links[i].id);
+        			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
+        		}
+        	 }
         });
 		node.data['selected'] = true;
+        var links = node.links;
+ 		for (var i=0; i < links.length; i++) {
+			var link = threeGraphics.getLinkUI(links[i].id);
+			if (link) link.material.color.setHex(0xff0000);
+		}
         console.info('nodeId selected ' + node.id);
 	}
 	
@@ -97,13 +111,48 @@ module.exports.buildGraph = function (data) {
 		var node = graph.getNode(nodeId);
 		var links = node.links;
 		
-		for (var i=0; i < links.length; i++) {
-			var link = threeGraphics.getLinkUI(links[i].id);
-			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'white');
-		}
+		if(node.data['selected'] != true) 
+		{
 
+			for (var i=0; i < links.length; i++) {
+				var link = threeGraphics.getLinkUI(links[i].id);
+				if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
+			}
+		
+		}
+		hideName();
 	}
+	
+  
 };
+
+function showName(name, event) {
+	
+	var newDiv = document.createElement('div');
+	newDiv.className = 'div-class';
+	newDiv.name = 'nameDiv';
+	newDiv.innerHTML = name;
+	
+	newDiv.style.position = "absolute";
+	newDiv.style.left = event.origDomEvent.clientX+'px';
+	newDiv.style.top = event.origDomEvent.clientY+'px';
+	newDiv.style.color = 'white';
+	newDiv.style.fontWeight="bold";
+	newDiv.style.fontSize = '26px';
+	
+	document.body.appendChild(newDiv);
+}
+
+function hideName() {
+	var elems = document.getElementsByClassName('div-class');
+	
+	if(elems)
+	{
+		for (var i = 0; i < elems.length; i++) {
+			document.body.removeChild(elems[i]);
+		}
+	}
+}
 
 function createGraph(graph, data) {
 	
@@ -115,12 +164,12 @@ function createGraph(graph, data) {
 	graph.beginUpdate();
 	
 	for (var i = 0; i < data.nodes.length; i++) {
-		console.info('Node : id - ' + data.nodes[i].id);
+		//console.info('Node : id - ' + data.nodes[i].id);
 		graph.addNode(data.nodes[i].id, data.nodes[i]);
 	}
 	
 	for (var i = 0; i < data.edges.length; i++) {
-		console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
+		//console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
 		graph.addLink(data.edges[i].from, data.edges[i].to, data.edges[i]);
 	}
 		
@@ -134,12 +183,12 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'js/4080446.json',
+		url : 'js/instbuild.json',
 		//url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
 			if (!data) {
-				clearInterval(timerId);
+				//clearInterval(timerId);
 			} else {
 				ngraph.buildGraph(data);
 			}
@@ -147,7 +196,7 @@ function getData(graphId) {
 		error : function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
 			alert('Error occured!');
-			clearInterval(timerId);
+			//clearInterval(timerId);
 		} 
 	});
 }
