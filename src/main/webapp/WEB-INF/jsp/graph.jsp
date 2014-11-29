@@ -12,6 +12,7 @@
 	<script src="js/bundle.js"></script>
 </head>
 <body onload='ngraph.main()'>
+	<button id='transparentLinks' >Hide/Show Links</button>
 	<input type="hidden" id="graphId" value="${graphId}" />
 </body>
 

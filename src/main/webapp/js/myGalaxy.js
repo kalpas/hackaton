@@ -50,20 +50,14 @@ module.exports.buildGraph = function (data) {
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color });
+		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color, transparent: true });
 		return new THREE.Line(linkGeometry, linkMaterial);
   });
 	
 	layout.step();
 	
-//	graph.forEachNode(function (node) {
-//	    var pos = layout.getNodePosition(node.id);
-//		layout.pinNode(node,true);
-//		layout.setNodePosition(node.id, pos.x, pos.y, pos.z);
-//	  });
-	
+	addEventListeners(graph,threeGraphics, 'transparentLinks' )
 	createGraph(graph,data);
-	addEventListeners(graph);
 	
 	
 	threeGraphics.run();
@@ -81,16 +75,29 @@ module.exports.buildGraph = function (data) {
 			var link = threeGraphics.getLinkUI(links[i].id);
 			if (link) link.material.color.setHex(0xff0000);
 		}
+		showName(node.data.name, e);
 	}
     
 	function onMouseClick(e) {
 		var nodeId = e.target.nodeId;
 		var node = graph.getNode(nodeId);
-        
         graph.forEachNode(function(nodes){
-             nodes.data['selected'] = false;
+        	 if(nodes.data['selected'] == true)
+        	 {
+                 nodes.data['selected'] = false;
+                 var links = nodes.links;
+         		for (var i=0; i < links.length; i++) {
+        			var link = threeGraphics.getLinkUI(links[i].id);
+        			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
+        		}
+        	 }
         });
 		node.data['selected'] = true;
+        var links = node.links;
+ 		for (var i=0; i < links.length; i++) {
+			var link = threeGraphics.getLinkUI(links[i].id);
+			if (link) link.material.color.setHex(0xff0000);
+		}
         console.info('nodeId selected ' + node.id);
 	}
 	
@@ -99,50 +106,48 @@ module.exports.buildGraph = function (data) {
 		var node = graph.getNode(nodeId);
 		var links = node.links;
 		
-		for (var i=0; i < links.length; i++) {
-			var link = threeGraphics.getLinkUI(links[i].id);
-			if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'white');
-		}
+		if(node.data['selected'] != true) 
+		{
 
+			for (var i=0; i < links.length; i++) {
+				var link = threeGraphics.getLinkUI(links[i].id);
+				if (link) link.material.color.setStyle(links[i].data.color ? links[i].data.color : 'blue');
+			}
+		
+		}
+		hideName();
 	}
 	
-    
-    
-function addEventListeners(graph) {
-	var el = document.getElementById('butt');
-	el.addEventListener("click",function(e) {
-		graph.beginUpdate();
-		
-		var node = graph.addNode(9,{'id':'1','name':'first','size':'8','color':'white'});
-
-        if(graph.getNode(3) && graph.getNode(9))
-        {
-            graph.addLink(3,9,{'id':'8','fromId':'3','toId':'9','color':'purple','linewidth':'1'});
-        }
-		
-		graph.endUpdate();
-	});
-    
-    var rel = document.getElementById('removeButton');
-    rel.addEventListener("click",function(e) {
-		graph.beginUpdate();
-		console.info('to remove');
-		graph.forEachNode(function(node){
-            if(node.data.selected == true)
-            {
-                console.info('nodeId removed ' + node.id);
-                var toDel = threeGraphics.getNodeUI(node.id);
-                domEvents.removeEventListener(toDel, 'mouseover',onMouseOver);
-                domEvents.removeEventListener(toDel, 'click',onMouseClick);
-                domEvents.removeEventListener(toDel, 'mouseout',onMouseOut);
-                graph.removeNode(node.id);
-            }
-        });
-		
-		graph.endUpdate();
-	});
-}
+  
 };
+
+function showName(name, event) {
+	
+	var newDiv = document.createElement('div');
+	newDiv.className = 'div-class';
+	newDiv.name = 'nameDiv';
+	newDiv.innerHTML = name;
+	
+	newDiv.style.position = "absolute";
+	newDiv.style.left = event.origDomEvent.clientX+'px';
+	newDiv.style.top = event.origDomEvent.clientY+'px';
+	newDiv.style.color = 'white';
+	newDiv.style.fontWeight="bold";
+	newDiv.style.fontSize = '26px';
+	
+	document.body.appendChild(newDiv);
+}
+
+function hideName() {
+	var elems = document.getElementsByClassName('div-class');
+	
+	if(elems)
+	{
+		for (var i = 0; i < elems.length; i++) {
+			document.body.removeChild(elems[i]);
+		}
+	}
+}
 
 function createGraph(graph, data) {
 	
@@ -154,17 +159,30 @@ function createGraph(graph, data) {
 	graph.beginUpdate();
 	
 	for (var i = 0; i < data.nodes.length; i++) {
-		console.info('Node : id - ' + data.nodes[i].id);
+		//console.info('Node : id - ' + data.nodes[i].id);
 		graph.addNode(data.nodes[i].id, data.nodes[i]);
 	}
 	
 	for (var i = 0; i < data.edges.length; i++) {
-		console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
+		//console.info('Link : from - ' + data.edges[i].from + ' to - ' + data.edges[i].to);
 		graph.addLink(data.edges[i].from, data.edges[i].to, data.edges[i]);
 	}
 		
 	graph.endUpdate();
 	console.info('Graph created!');
+}
+
+function addEventListeners(graph, threeGraphics, elementId) {
+	var element = document.getElementById(elementId);
+	if (element) {
+		element.addEventListener('click', function(){
+			graph.forEachLink(function(link){
+				var linkUI = threeGraphics.getLinkUI(link.id);
+				if (linkUI)
+					linkUI.material.opacity = linkUI.material.opacity > 0 ? 0 : 1;
+			});
+		});
+	}
 }
 
 function getData(graphId) {
@@ -173,12 +191,12 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'js/4080446.json',
+		url : 'js/instbuild.json',
 		//url : 'rest/pull?id='+graphId,
 		success : function(data) {
 			console.info(data);
 			if (!data) {
-				clearInterval(timerId);
+				//clearInterval(timerId);
 			} else {
 				ngraph.buildGraph(data);
 			}
@@ -186,7 +204,7 @@ function getData(graphId) {
 		error : function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
 			alert('Error occured!');
-			clearInterval(timerId);
+			//clearInterval(timerId);
 		} 
 	});
 }
