@@ -9,20 +9,17 @@ import myGalaxy.inst.api.Relations;
 import myGalaxy.inst.domain.InstResponse;
 import myGalaxy.inst.domain.User;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 public class InstagramDataProvider implements DataProvider{
-	
-	@Autowired
 	private Relations relations;
-	
+
 	private String accessToken;
-	
-	public InstagramDataProvider(String accessToken) {
+
+	public InstagramDataProvider(String accessToken, Relations relations) {
 		this.accessToken = accessToken;
+		this.relations = relations;
 	}
 	
 	@Override
