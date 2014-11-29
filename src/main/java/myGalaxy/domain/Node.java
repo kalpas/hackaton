@@ -33,6 +33,12 @@ public class Node implements IPassable, Serializable {
 		this.setName(user.first_name + " " + user.last_name);
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
 	}
+	
+	public Node(myGalaxy.inst.domain.User user) {
+		this.setId(user.id);
+		this.setName(user.full_name);
+		this.setPhotos(Arrays.asList(user.profile_picture));
+	}
 
 	public boolean isPassed() {
 		return passed;

@@ -14,6 +14,7 @@ public interface IGraphService {
 	List<Edge> getEdges(String id);
 	
 	Graph buildGraph(String userId, String accessToken);
+	Graph buildInstGraph(String userId, String accessToken);
 	void asyncBuildGraph(String userId, String accessToken, String id);
 	Graph pullGraph(String id);
 }

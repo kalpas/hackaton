@@ -33,7 +33,7 @@ public class GraphController {
 	
 	@RequestMapping(value = "asyncgraph")
 	public ModelAndView asyncBuild(
-			@RequestParam(required = true, value = MyGalaxy.VK_SESSION_USER_ID) String userId,
+			@RequestParam(required = false, value = MyGalaxy.VK_SESSION_USER_ID) String userId,
 			HttpSession session) {
 		ModelAndView mav = new ModelAndView("graph");
 
@@ -41,8 +41,10 @@ public class GraphController {
 
 		mav.addObject("graphId",id);
 
-		this.graphServ.asyncBuildGraph(userId, String
-				.valueOf(session.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)),id);
+		this.graphServ.asyncBuildGraph(userId != null ? userId : String.valueOf(session
+				.getAttribute(MyGalaxy.VK_SESSION_USER_ID)),
+				String.valueOf(session
+						.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)), id);
 
 		mav.addObject("graphId", id);
 		return mav;

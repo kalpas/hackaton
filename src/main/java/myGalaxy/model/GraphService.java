@@ -12,6 +12,7 @@ import myGalaxy.graphing.DataProvider;
 import myGalaxy.graphing.GraphBuilder;
 import myGalaxy.graphing.QueueHolder;
 import myGalaxy.graphing.QueuedVKDataProvider;
+import myGalaxy.inst.InstagramDataProvider;
 
 import org.springframework.stereotype.Service;
 
@@ -48,6 +49,13 @@ public class GraphService implements IGraphService {
 
 		return builder.build(provider, userId);
 	}
+	
+	public Graph buildInstGraph(String userId, String accessToken) {
+		GraphBuilder builder = new GraphBuilder();
+		DataProvider provider = new InstagramDataProvider(accessToken);
+
+		return builder.build(provider, userId);
+	}
 
 	public void asyncBuildGraph(String userId, String accessToken, String id) {
 		QueuedVKDataProvider provider = new QueuedVKDataProvider(accessToken);
@@ -61,7 +69,7 @@ public class GraphService implements IGraphService {
 
 		QueueHolder qh = MyGalaxy.GRAPH_POOL.get(id);
 		if (qh != null) {
-			if (qh.finished) {
+			if (qh.finished && qh.nodeQueue.isEmpty() && qh.edgeQueue.isEmpty()) {
 				return null;
 			} else {
 				synchronized (qh.nodeQueue) {

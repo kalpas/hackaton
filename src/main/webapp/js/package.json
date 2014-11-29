@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node_modules/.bin/browserify -s ngraph myGalaxy.js | uglifyjs > bundle.js"
+    "start": "node_modules/.bin/browserify -s ngraph myGalaxy.js > bundle.js"
   },
   "dependencies": {
     "ngraph.generators": "~0.0",
@@ -9,7 +9,6 @@
     "ngraph.graph": "0.0.4"
   },
   "devDependencies": {
-    "browserify": "~3.18.0",
-    "uglify-js": "^2.4.13"
+    "browserify": "~3.18.0"
   }
 }
