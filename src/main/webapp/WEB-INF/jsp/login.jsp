@@ -13,8 +13,8 @@
 	Please sign in
 	<p class="vk">
 		<c:choose>
-		<c:when test="${empty sessionScope.instuser}">
-		<a href="https://oauth.vk.com/authorize?client_id=${vk_client_id}&scope=${vk_scope}&redirect_uri=${vk_redirect_uri}&display=${vk_display}&v=5.27&response_type=${vk_response_type}"><img src="img/vk.png" alt="VK Sign In" style="width: 100px; height: 100px;" title="VK Sign In"/></a>
+		<c:when test="${empty sessionScope.user}">
+		<a href="https://oauth.vk.com/authorize?client_id=${vk_client_id}&scope=${vk_scope}&redirect_uri=${vk_redirect_uri}&display=${vk_display}&v=5.27&response_type=${vk_response_type}"><img src="img/vk.jpg" alt="VK Sign In" style="width: 100px; height: 100px;" title="VK Sign In"/></a>
 		</c:when>
 		<c:otherwise>
 		<img src="img/vk_disabled.png" alt="VK Sign In" style="width: 100px; height: 100px;" title="VK Sign In"/>
@@ -32,8 +32,14 @@
 		</c:choose>
 	</p>
 	<br>
-	<p>
-		<a href="asyncgraph" class="view"><img src="img/view.png" alt="View graph" title="View graph" style="width: 120px; height: 70px;"/></a>
+	<p class="view" style="transform-style: flat;">
+		<c:choose>
+		<c:when test="${empty sessionScope.instuser and empty sessionScope.user}">
+		</c:when>
+		<c:otherwise>
+		<a href="asyncgraph">View graph</a>
+		</c:otherwise>
+		</c:choose>
 	</p>
 	</div>
 </body>
