@@ -21,37 +21,44 @@ public class QDPtest {
 		QueueHolder queues = provider.submitTask("1080446");
 
 		assertNotNull(queues);
-		
-		while(!queues.finished){
+
+		int nodes = 0;
+		int edges = 0;
+
+		while (!queues.finished) {
 			Thread.sleep(10000);
 			List<Node> list = new ArrayList<>();
-			Node element  = queues.nodeQueue.poll();
-			while(element != null){
+			Node element = queues.nodeQueue.poll();
+			while (element != null) {
 				list.add(element);
 				element = queues.nodeQueue.poll();
 			}
-			
-			for(Node n : list){
+
+			for (Node n : list) {
 				System.out.println(n.getName());
+				nodes++;
 			}
-			
+
 			List<Edge> edgeList = new ArrayList<>();
-			Edge edge= queues.edgeQueue.poll();
-			while(edge != null){
+			Edge edge = queues.edgeQueue.poll();
+			while (edge != null) {
 				edgeList.add(edge);
 				edge = queues.edgeQueue.poll();
 			}
-			
-			for(Edge e: edgeList){
+
+			for (Edge e : edgeList) {
 				System.out.println(e.getId());
+				edges++;
 			}
 		}
-		
+
 		synchronized (queues.finished) {
 			queues.finished.wait();
 		}
 
 		assertTrue(queues.finished);
+
+		System.out.println(nodes + " " + edges);
 
 	}
 
