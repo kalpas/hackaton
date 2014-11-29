@@ -50,18 +50,13 @@ module.exports.buildGraph = function (data) {
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 		linkGeometry.vertices.push(new THREE.Vector3(0, 0, 0));
 
-		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color });
+		var linkMaterial = new THREE.LineBasicMaterial({ color: link.data.color, transparent: true });
 		return new THREE.Line(linkGeometry, linkMaterial);
   });
 	
 	layout.step();
 	
-//	graph.forEachNode(function (node) {
-//	    var pos = layout.getNodePosition(node.id);
-//		layout.pinNode(node,true);
-//		layout.setNodePosition(node.id, pos.x, pos.y, pos.z);
-//	  });
-	
+	addEventListeners(graph,threeGraphics, 'transparentLinks' )
 	createGraph(graph,data);
 	
 	
@@ -175,6 +170,19 @@ function createGraph(graph, data) {
 		
 	graph.endUpdate();
 	console.info('Graph created!');
+}
+
+function addEventListeners(graph, threeGraphics, elementId) {
+	var element = document.getElementById(elementId);
+	if (element) {
+		element.addEventListener('click', function(){
+			graph.forEachLink(function(link){
+				var linkUI = threeGraphics.getLinkUI(link.id);
+				if (linkUI)
+					linkUI.material.opacity = linkUI.material.opacity > 0 ? 0 : 1;
+			});
+		});
+	}
 }
 
 function getData(graphId) {
