@@ -84,8 +84,8 @@ public class GraphBuilder {
 			String instaUserId, String accessToken, Users instaUsersApi) {
 		Graph graph = new Graph();
 
-		Multimap<Node, Node> vkMap = vkProvider.getData(vkUserId);
-		Multimap<Node, Node> instaMap = instagramProvider.getData(instaUserId);
+		Multimap<Node, Node> vkMap = vkUserId != null && !"null".equals(vkUserId) ? vkProvider.getData(vkUserId) : HashMultimap.<Node, Node>create();
+		Multimap<Node, Node> instaMap = instaUserId != null && !"null".equals(instaUserId) ? instagramProvider.getData(instaUserId) : HashMultimap.<Node, Node>create();
 
 		graph.internalMap = vkMap;
 
@@ -93,8 +93,8 @@ public class GraphBuilder {
 		for (Node vkUser : vkMap.keySet()) {
 			String instaAccount = vkUser.additionalProperties.get(Node.INSTA);
 			if (instaAccount != null) {
-				InstResponse instResponse = instaUsersApi.search(instaAccount,
-						accessToken);
+				InstResponse instResponse = accessToken != null && !"null".equals(accessToken) ? instaUsersApi.search(instaAccount,
+						accessToken) : new InstResponse();
 				if (instResponse != null && instResponse.data != null
 						&& !instResponse.data.isEmpty()) {
 					User instaUser = instResponse.data.get(0);

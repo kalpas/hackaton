@@ -272,8 +272,8 @@ function getData(graphId) {
 		async : true,
 		cashe : false,
 		dataType : 'json',
-		url : 'js/4080446.json',
-		//url : 'rest/pull?id='+graphId,
+		// url : 'js/4080446.json',
+		url : 'rest/joined',
 		success : function(data) {
 			console.info(data);
 			if (!data) {
