@@ -11,7 +11,7 @@ public class VK {
 	public static final String SCOPE = "friends";
 	public static final String AUTH_DISPLAY = "page";
 	public static final String AUTH_RESPONSE_TYPE = "code";
-	public static final String REDIRECT_URI = "http://localhost:8080/myGalaxy/auth/vk";
+	public static final String REDIRECT_URI = "http://kalpas.net/auth/vk";
 	
 	
 	
