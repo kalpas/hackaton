@@ -29,14 +29,40 @@
         class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
     </bean>
 
-    <!-- PRODUCTION -->
-    <bean id="VKConfig" class="mygalaxy.vk.api.conf.VKConfig">
-        <property name="clientSecret" value="ahX5Q63OgLkTkzAoIvDn" />
-        <property name="clientId" value="4653561" />
+    <!-- PRODUCTION VK CONFIG -->
+    <!--  <bean id="VKConfig" class="mygalaxy.vk.api.conf.VKConfig">
+        <property name="clientSecret" value="*" />
+        <property name="clientId" value="*" />
         <property name="scope" value="friends" />
         <property name="authDisplay" value="page" />
         <property name="authResponseType" value="code" />
-        <property name="redirectUri" value="http://galaxy.kalpas.net/auth/vk" />
+        <property name="redirectUri" value="*" />
+    </bean> -->
+    
+    <!-- DEV VK CONFIG -->
+    <bean id="VKConfig" class="mygalaxy.vk.api.conf.VKConfig">
+        <property name="clientSecret" value="*" />
+        <property name="clientId" value="*" />
+        <property name="scope" value="friends" />
+        <property name="authDisplay" value="page" />
+        <property name="authResponseType" value="code" />
+        <property name="redirectUri" value="*" />
+    </bean>
+    
+    <!-- PRODUCTION INSTA CONFIG -->
+   <!--  <bean id="InstaConfig" class="mygalaxy.inst.InstaConfig">
+        <property name="clientSecret" value="*" />
+        <property name="clientId" value="*"/>
+        <property name="authResponseType" value="code" />
+        <property name="redirectUri" value="*" />
+    </bean> -->
+    
+    <!-- DEV INSTA CONFIG -->
+    <bean id="InstaConfig" class="mygalaxy.inst.InstaConfig">
+        <property name="clientSecret" value="*" />
+        <property name="clientId" value="*"/>
+        <property name="authResponseType" value="code" />
+        <property name="redirectUri" value="*" />
     </bean>
 
 

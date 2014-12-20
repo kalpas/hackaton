@@ -8,7 +8,7 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import mygalaxy.MyGalaxy;
-import mygalaxy.inst.Instagram;
+import mygalaxy.inst.InstaConfig;
 import mygalaxy.vk.api.conf.VKConfig;
 import mygalaxy.vk.api.domain.AuthResponse;
 
@@ -37,23 +37,26 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class AuthController {
 
 	@Autowired
-	private VKConfig config;
+	private VKConfig    vKconfig;
+
+	@Autowired
+	private InstaConfig instaConfig;
 
 	@RequestMapping(value = "/vk", method = RequestMethod.GET)
 	public String getVkToken(@RequestParam(value = "code", required = false) String code, HttpSession session)
 	        throws URISyntaxException, IOException {
 
 		URIBuilder builder = new URIBuilder();
-		builder.setScheme("https").setHost(config.API_HOST).setPath(config.AUTH_PATH);
+		builder.setScheme("https").setHost(vKconfig.API_HOST).setPath(vKconfig.AUTH_PATH);
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		String URI = builder.build().toString();
 		HttpPost post = new HttpPost(URI);
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("client_id", config.getClientId()));
-		params.add(new BasicNameValuePair("client_secret", config.getClientSecret()));
-		params.add(new BasicNameValuePair("redirect_uri", config.getRedirectUri()));
+		params.add(new BasicNameValuePair("client_id", vKconfig.getClientId()));
+		params.add(new BasicNameValuePair("client_secret", vKconfig.getClientSecret()));
+		params.add(new BasicNameValuePair("redirect_uri", vKconfig.getRedirectUri()));
 		params.add(new BasicNameValuePair("code", code));
 		post.setEntity(new UrlEncodedFormEntity(params, Consts.UTF_8));
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -88,16 +91,16 @@ public class AuthController {
 	        throws URISyntaxException, IOException {
 
 		URIBuilder builder = new URIBuilder();
-		builder.setScheme("https").setHost(Instagram.API_HOST).setPath(Instagram.AUTH_PATH);
+		builder.setScheme("https").setHost(instaConfig.API_HOST).setPath(instaConfig.AUTH_PATH);
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		String URI = builder.build().toString();
 		HttpPost post = new HttpPost(URI);
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("client_id", Instagram.CLIENT_ID));
-		params.add(new BasicNameValuePair("client_secret", Instagram.CLIENT_SECRET));
-		params.add(new BasicNameValuePair("redirect_uri", Instagram.REDIRECT_URI));
+		params.add(new BasicNameValuePair("client_id", instaConfig.getClientId()));
+		params.add(new BasicNameValuePair("client_secret", instaConfig.getClientSecret()));
+		params.add(new BasicNameValuePair("redirect_uri", instaConfig.getRedirectUri()));
 		params.add(new BasicNameValuePair("grant_type", "authorization_code"));
 		params.add(new BasicNameValuePair("code", code));
 		post.setEntity(new UrlEncodedFormEntity(params, Consts.UTF_8));
