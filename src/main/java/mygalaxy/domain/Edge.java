@@ -7,12 +7,12 @@ public class Edge implements IPassable, Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -8646042769087796555L;
-	private String id;
-	private String from;
-	private String to;
-	private boolean passed;
-	private Float weight = 1f;
-	private String color = "#440077";
+	private String            id;
+	private String            from;
+	private String            to;
+	private boolean           passed;
+	private Float             weight           = 1f;
+	private String            color            = "#440077";
 
 	public Edge() {
 	}

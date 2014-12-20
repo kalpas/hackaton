@@ -17,21 +17,17 @@ public class Relations {
 		MultiValueMap<String, String> headers = new HttpHeaders();
 		HttpEntity<Object> httpEntity = new HttpEntity<Object>(headers);
 		RestTemplate template = new RestTemplate();
-		ResponseEntity<InstResponse> response = template.exchange(
-				("https://api.instagram.com/v1/users/" + userId
-						+ "/follows?access_token=" + accessToken),
-				HttpMethod.GET, httpEntity, InstResponse.class);
+		ResponseEntity<InstResponse> response = template.exchange(("https://api.instagram.com/v1/users/" + userId
+		        + "/follows?access_token=" + accessToken), HttpMethod.GET, httpEntity, InstResponse.class);
 
 		InstResponse toReturn = new InstResponse();
 
 		do {
-			 if (response.getBody() != null) {
-				 toReturn.data.addAll(response.getBody().data);
-				if (response.getBody().pagination != null
-						&& response.getBody().pagination.next_url != null) {
-					response = template.exchange(
-							response.getBody().pagination.next_url,
-							HttpMethod.GET, httpEntity, InstResponse.class);
+			if (response.getBody() != null) {
+				toReturn.data.addAll(response.getBody().data);
+				if (response.getBody().pagination != null && response.getBody().pagination.next_url != null) {
+					response = template.exchange(response.getBody().pagination.next_url, HttpMethod.GET, httpEntity,
+					        InstResponse.class);
 				} else {
 					response = null;
 
@@ -48,9 +44,8 @@ public class Relations {
 		HttpEntity<Object> httpEntity = new HttpEntity<Object>(headers);
 		RestTemplate template = new RestTemplate();
 		return template.exchange(
-				("https://api.instagram.com/v1/users/" + userId
-						+ "/followed-by?access_token=" + accessToken),
-				HttpMethod.GET, httpEntity, InstResponse.class).getBody();
+		        ("https://api.instagram.com/v1/users/" + userId + "/followed-by?access_token=" + accessToken),
+		        HttpMethod.GET, httpEntity, InstResponse.class).getBody();
 	}
 
 	public InstResponse getRequestedBy(String userId, String accessToken) {
@@ -58,8 +53,7 @@ public class Relations {
 		HttpEntity<Object> httpEntity = new HttpEntity<Object>(headers);
 		RestTemplate template = new RestTemplate();
 		return template.exchange(
-				("https://api.instagram.com/v1/users/" + userId
-						+ "/requested-by?access_token=" + accessToken),
-				HttpMethod.GET, httpEntity, InstResponse.class).getBody();
+		        ("https://api.instagram.com/v1/users/" + userId + "/requested-by?access_token=" + accessToken),
+		        HttpMethod.GET, httpEntity, InstResponse.class).getBody();
 	}
 }

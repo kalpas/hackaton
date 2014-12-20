@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.List;
 
+import mygalaxy.vk.api.conf.VKConfig;
+
 import org.apache.commons.io.IOUtils;
 import org.apache.http.Consts;
 import org.apache.http.NameValuePair;
@@ -15,12 +17,18 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class RequestHelper {
 
-	public static final int TIMEOUT = 400;
+	@Autowired
+	private VKConfig config;
 
-	public static String execute(URIBuilder builder, String accessToken) {
+	public final int TIMEOUT = 400;
+
+	public String execute(URIBuilder builder, String accessToken) {
 
 		builder.addParameter("access_token", accessToken);
 
@@ -40,8 +48,7 @@ public class RequestHelper {
 		try {
 			response = httpclient.execute(get);
 			try {
-				entityString = IOUtils.toString(response.getEntity()
-						.getContent(), "UTF-8");
+				entityString = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} finally {
@@ -56,12 +63,11 @@ public class RequestHelper {
 
 	}
 
-	public static String executePost(String accessToken,
-			List<NameValuePair> params) {
+	public String executePost(String accessToken, List<NameValuePair> params) {
 
 		params.add(new BasicNameValuePair("access_token", accessToken));
 
-		URIBuilder builder = RequestHelper.getBuilder("execute");
+		URIBuilder builder = getBuilder("execute");
 		String URI = null;
 		try {
 			URI = builder.build().toString();
@@ -79,8 +85,7 @@ public class RequestHelper {
 		try {
 			response = httpclient.execute(post);
 			try {
-				entityString = IOUtils.toString(response.getEntity()
-						.getContent(), "UTF-8");
+				entityString = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 			} catch (IllegalStateException e) {
 				e.printStackTrace();
 			} finally {
@@ -95,16 +100,16 @@ public class RequestHelper {
 
 	}
 
-	public static URIBuilder getBuilder(String method) {
+	public URIBuilder getBuilder(String method) {
 		URIBuilder builder = new URIBuilder();
-		builder.setScheme("https").setHost(VK.API_BASE).setPath(method);
+		builder.setScheme("https").setHost(config.API_BASE).setPath(method);
 		return builder;
 
 	}
 
-	public static void sleep() {
+	public void sleep() {
 		try {
-			Thread.sleep(RequestHelper.TIMEOUT);
+			Thread.sleep(TIMEOUT);
 		} catch (InterruptedException e) {
 			e.printStackTrace();
 		}

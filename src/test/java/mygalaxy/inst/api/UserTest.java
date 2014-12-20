@@ -14,7 +14,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 public class UserTest {
 	@Autowired
 	private Users users;
-	
+
 	@Test
 	public void testgetFollowers() throws ClientProtocolException, IOException {
 		users.search("andykalpas", "423754320.9566b27.9f050b5508fe417784e000a27b168905");

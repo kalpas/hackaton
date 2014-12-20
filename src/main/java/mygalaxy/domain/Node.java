@@ -15,24 +15,24 @@ public class Node implements IPassable, Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2674138115435304464L;
-	private String id;
+	private static final long            serialVersionUID     = 2674138115435304464L;
+	private String                       id;
 
-	private String name;
-	private String size = Graphing.DEFAULT_NODE_SIZE.toString();
-	private int communityId;
-	private boolean passed;
-	private List<String> photos;
-	private String color = generateColor();
+	private String                       name;
+	private String                       size                 = Graphing.DEFAULT_NODE_SIZE.toString();
+	private int                          communityId;
+	private boolean                      passed;
+	private List<String>                 photos;
+	private String                       color                = generateColor();
 
-	public Map<String, String> additionalProperties = new HashMap<>();
+	public Map<String, String>           additionalProperties = new HashMap<>();
 
-	public transient static final String DEGREE = "degree";
-	public transient static final String INSTA = "insta";
-	public transient static final String VK = "vk";
-	public transient static final String TYPE = "type";
-	public transient static final String LINK = "link";
-	public transient static final String MODULARITY_CLASS = "modularity_class";
+	public transient static final String DEGREE               = "degree";
+	public transient static final String INSTA                = "insta";
+	public transient static final String VK                   = "vk";
+	public transient static final String TYPE                 = "type";
+	public transient static final String LINK                 = "link";
+	public transient static final String MODULARITY_CLASS     = "modularity_class";
 
 	public Node() {
 
@@ -43,8 +43,7 @@ public class Node implements IPassable, Serializable {
 		int r = rand.nextInt(127) + 128;
 		int g = rand.nextInt(127) + 128;
 		int b = rand.nextInt(127) + 128;
-		return "#" + Integer.toHexString(r) + Integer.toHexString(g)
-				+ Integer.toHexString(b);
+		return "#" + Integer.toHexString(r) + Integer.toHexString(g) + Integer.toHexString(b);
 
 	}
 
@@ -54,7 +53,7 @@ public class Node implements IPassable, Serializable {
 		this.setPhotos(Arrays.asList(user.photo_200_orig));
 		this.additionalProperties.put(INSTA, user.instagram);
 		this.additionalProperties.put(TYPE, VK);
-		this.additionalProperties.put(LINK, "http://vk.com/id"+this.getId());
+		this.additionalProperties.put(LINK, "http://vk.com/id" + this.getId());
 	}
 
 	public Node(mygalaxy.inst.domain.User user) {
@@ -62,7 +61,7 @@ public class Node implements IPassable, Serializable {
 		this.setName(user.full_name);
 		this.setPhotos(Arrays.asList(user.profile_picture));
 		this.additionalProperties.put(TYPE, INSTA);
-		this.additionalProperties.put(LINK, "http://instagram.com/"+user.username);
+		this.additionalProperties.put(LINK, "http://instagram.com/" + user.username);
 		this.additionalProperties.put("username", user.username);
 	}
 

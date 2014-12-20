@@ -62,9 +62,8 @@ public class QueuedVKDataProvider {
 		}
 	}
 
-	private Set<Node> populateConnections4User(
-			Multimap<Node, Node> connections, Node center, Set<Node> all,
-			QueueHolder queues) {
+	private Set<Node> populateConnections4User(Multimap<Node, Node> connections, Node center, Set<Node> all,
+	        QueueHolder queues) {
 
 		List<User> set = friends.get(center.getId());
 		Set<Node> nodes = new HashSet<>();

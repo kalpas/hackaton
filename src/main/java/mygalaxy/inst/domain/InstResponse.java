@@ -5,6 +5,6 @@ import java.util.List;
 
 public class InstResponse {
 	public Pagination pagination;
-	public Meta meta;
+	public Meta       meta;
 	public List<User> data = new ArrayList<User>();
 }

@@ -75,17 +75,17 @@ public class GraphBuilder {
 		int r = rand.nextInt(170);
 		int g = rand.nextInt(170);
 		int b = rand.nextInt(170);
-		return "#" + Integer.toHexString(r) + Integer.toHexString(g)
-				+ Integer.toHexString(b);
+		return "#" + Integer.toHexString(r) + Integer.toHexString(g) + Integer.toHexString(b);
 	}
 
-	public Graph build(VkDataProvider vkProvider,
-			InstagramDataProvider instagramProvider, String vkUserId,
-			String instaUserId, String accessToken, Users instaUsersApi) {
+	public Graph build(VkDataProvider vkProvider, InstagramDataProvider instagramProvider, String vkUserId,
+	        String instaUserId, String accessToken, Users instaUsersApi) {
 		Graph graph = new Graph();
 
-		Multimap<Node, Node> vkMap = vkUserId != null && !"null".equals(vkUserId) ? vkProvider.getData(vkUserId) : HashMultimap.<Node, Node>create();
-		Multimap<Node, Node> instaMap = instaUserId != null && !"null".equals(instaUserId) ? instagramProvider.getData(instaUserId) : HashMultimap.<Node, Node>create();
+		Multimap<Node, Node> vkMap = vkUserId != null && !"null".equals(vkUserId) ? vkProvider.getData(vkUserId)
+		        : HashMultimap.<Node, Node> create();
+		Multimap<Node, Node> instaMap = instaUserId != null && !"null".equals(instaUserId) ? instagramProvider
+		        .getData(instaUserId) : HashMultimap.<Node, Node> create();
 
 		graph.internalMap = vkMap;
 
@@ -93,13 +93,11 @@ public class GraphBuilder {
 		for (Node vkUser : vkMap.keySet()) {
 			String instaAccount = vkUser.additionalProperties.get(Node.INSTA);
 			if (instaAccount != null) {
-				InstResponse instResponse = accessToken != null && !"null".equals(accessToken) ? instaUsersApi.search(instaAccount,
-						accessToken) : new InstResponse();
-				if (instResponse != null && instResponse.data != null
-						&& !instResponse.data.isEmpty()) {
+				InstResponse instResponse = accessToken != null && !"null".equals(accessToken) ? instaUsersApi.search(
+				        instaAccount, accessToken) : new InstResponse();
+				if (instResponse != null && instResponse.data != null && !instResponse.data.isEmpty()) {
 					User instaUser = instResponse.data.get(0);
-					Collection<Node> instaNodes = instaMap.get(new Node(
-							instaUser));
+					Collection<Node> instaNodes = instaMap.get(new Node(instaUser));
 					temp.putAll(vkUser, instaNodes);
 					for (Node instaNode : instaNodes) {
 						temp.putAll(instaNode, instaMap.get(instaNode));
@@ -140,8 +138,7 @@ public class GraphBuilder {
 		for (Node element : set) {
 			int degree = map.get(element).size();
 			degree += HashMultiset.create(map.values()).count(element);
-			element.additionalProperties.put(Node.DEGREE,
-					String.valueOf(degree));
+			element.additionalProperties.put(Node.DEGREE, String.valueOf(degree));
 			if (degree > maxDegree) {
 				maxDegree = degree;
 			}
@@ -151,8 +148,7 @@ public class GraphBuilder {
 
 	private void calculateSize(Set<Node> set, int maxDegree) {
 		for (Node element : set) {
-			int degree = Integer.valueOf(element.additionalProperties
-					.get(Node.DEGREE));
+			int degree = Integer.valueOf(element.additionalProperties.get(Node.DEGREE));
 			element.setSize(String.valueOf(degree * maxSize / maxDegree + 3));
 		}
 	}

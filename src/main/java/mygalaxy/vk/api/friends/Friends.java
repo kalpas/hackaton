@@ -18,6 +18,7 @@ import mygalaxy.vk.api.domain.VKErrorResponse;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,12 +27,15 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Joiner;
 
 public class Friends {
-	private static final String[] FIELDS = { "sex", "country",
-			"photo_200_orig", "connections" };
 
-	private final String accessToken;
+	@Autowired
+	private RequestHelper         requestHelper;
 
-	private ObjectMapper mapper = new ObjectMapper();
+	private static final String[] FIELDS = { "sex", "country", "photo_200_orig", "connections" };
+
+	private final String          accessToken;
+
+	private ObjectMapper          mapper = new ObjectMapper();
 
 	public Friends(String accessToken) {
 		this.accessToken = accessToken;
@@ -41,18 +45,18 @@ public class Friends {
 		List<User> list = new ArrayList<>();
 
 		// TODO support count over 5000
-		URIBuilder builder = RequestHelper.getBuilder("friends.get");
+		URIBuilder builder = requestHelper.getBuilder("friends.get");
 		builder.addParameter("user_id", userId);
 		builder.addParameter("order", "name");
 		builder.addParameter("fields", Joiner.on(",").join(FIELDS));
 
-		String entityString = RequestHelper.execute(builder, accessToken);
+		String entityString = requestHelper.execute(builder, accessToken);
 
 		try {
 			parseResponse(list, entityString);
 		} catch (VKError e) {
 			if (Integer.valueOf(e.errorCode) == ErrorCodes.TOO_MANY_REQUSTS) {
-				RequestHelper.sleep();
+				requestHelper.sleep();
 				return this.get(userId);
 			}
 		}
@@ -60,19 +64,16 @@ public class Friends {
 		return list;
 	}
 
-	private void parseResponse(List<User> list, String entityString)
-			throws VKError {
+	private void parseResponse(List<User> list, String entityString) throws VKError {
 		FriendsResponse friendsResponse = null;
 		try {
-			friendsResponse = mapper.readValue(entityString,
-					FriendsResponse.class);
+			friendsResponse = mapper.readValue(entityString, FriendsResponse.class);
 			if (friendsResponse != null) {
 				Collections.addAll(list, friendsResponse.response);
 			}
 		} catch (Exception e) {
 			try {
-				VKError error = mapper.readValue(entityString,
-						VKErrorResponse.class).error;
+				VKError error = mapper.readValue(entityString, VKErrorResponse.class).error;
 				if (error != null) {
 					System.out.println(error.errorMsg);
 					throw error;
@@ -94,8 +95,8 @@ public class Friends {
 			String query = "return {\"result\":[";
 			for (int j = 0; (j < 25 && (i + j) < users.size()); j++) {
 				query += String
-						.format(" {\"user\":%s,\"friends\": API.friends.get({\"user_id\":%s,\"order\":\"name\",\"fields\":[\"sex\",\"country\",\"photo_200_orig\",\"connections\"]})},",
-								users.get(i + j).uid, users.get(i + j).uid);
+				        .format(" {\"user\":%s,\"friends\": API.friends.get({\"user_id\":%s,\"order\":\"name\",\"fields\":[\"sex\",\"country\",\"photo_200_orig\",\"connections\"]})},",
+				                users.get(i + j).uid, users.get(i + j).uid);
 				temp.add(users.get(i + j));
 			}
 			query += "]};";
@@ -104,7 +105,7 @@ public class Friends {
 			List<NameValuePair> params = new ArrayList<NameValuePair>();
 			params.add(new BasicNameValuePair("code", query));
 
-			String result = RequestHelper.executePost(accessToken, params);
+			String result = requestHelper.executePost(accessToken, params);
 			System.out.println(result);
 
 			try {
@@ -112,7 +113,7 @@ public class Friends {
 			} catch (VKError e) {
 				if (Integer.valueOf(e.errorCode) == ErrorCodes.TOO_MANY_REQUSTS) {
 					System.out
-							.println("Fucked Up Beyond All Recognition - Burn it to the ground and start over from scratch; it's totally destroyed.");
+					        .println("Fucked Up Beyond All Recognition - Burn it to the ground and start over from scratch; it's totally destroyed.");
 				}
 			}
 		}
@@ -120,8 +121,8 @@ public class Friends {
 		return map;
 	}
 
-	private Map<User, List<User>> parseBatchResponse(String entity,
-			List<User> users, Map<User, List<User>> map) throws VKError {
+	private Map<User, List<User>> parseBatchResponse(String entity, List<User> users, Map<User, List<User>> map)
+	        throws VKError {
 		Map<User, List<User>> result = null;
 		try {
 			// result = mapper.readValue(entity,
@@ -152,8 +153,7 @@ public class Friends {
 		try {
 
 			JsonNode node = mapper.readTree(entity);
-			ArrayNode array = (ArrayNode) node.get("response").withArray(
-					"result");
+			ArrayNode array = (ArrayNode) node.get("response").withArray("result");
 			Iterator<JsonNode> iterator = array.elements();
 			while (iterator.hasNext()) {
 				JsonNode element = iterator.next();

@@ -10,13 +10,13 @@ public class VKError extends Exception {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -1360758972832819238L;
-	
+	private static final long   serialVersionUID = -1360758972832819238L;
+
 	@JsonProperty("error_code")
-	public Integer errorCode;
+	public Integer              errorCode;
 	@JsonProperty("error_msg")
-	public String errorMsg;
+	public String               errorMsg;
 	@JsonProperty("request_params")
-	public List<VKRequestParam> requestParams = new ArrayList<VKRequestParam>();
+	public List<VKRequestParam> requestParams    = new ArrayList<VKRequestParam>();
 
 }

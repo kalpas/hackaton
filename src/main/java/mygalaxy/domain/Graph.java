@@ -10,8 +10,8 @@ import com.google.common.collect.Multimap;
 
 public class Graph {
 
-	private List<Node> nodes = new ArrayList<Node>();
-	private List<Edge> edges = new ArrayList<Edge>();
+	private List<Node>          nodes       = new ArrayList<Node>();
+	private List<Edge>          edges       = new ArrayList<Edge>();
 
 	public Multimap<Node, Node> internalMap = HashMultimap.create();
 
@@ -90,11 +90,11 @@ public class Graph {
 		Edge criteria = new Edge();
 		criteria.setId(node.getId() + neighbor.getId());
 		int indexOf = edges.indexOf(criteria);
-		if(indexOf == -1){
+		if (indexOf == -1) {
 			criteria.setId(neighbor.getId() + node.getId());
 			indexOf = edges.indexOf(criteria);
 		}
-		return indexOf>-1?edges.get(indexOf):null;
+		return indexOf > -1 ? edges.get(indexOf) : null;
 
 	}
 

@@ -18,9 +18,8 @@ public class Users {
 		HttpEntity<Object> httpEntity = new HttpEntity<Object>(headers);
 		RestTemplate template = new RestTemplate();
 		return template.exchange(
-				("https://api.instagram.com/v1/users/search?q=" + userName
-						+ "&access_token=" + accessToken), HttpMethod.GET,
-				httpEntity, InstResponse.class).getBody();
+		        ("https://api.instagram.com/v1/users/search?q=" + userName + "&access_token=" + accessToken),
+		        HttpMethod.GET, httpEntity, InstResponse.class).getBody();
 
 	}
 

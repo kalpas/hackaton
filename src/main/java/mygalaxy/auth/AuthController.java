@@ -9,7 +9,7 @@ import javax.servlet.http.HttpSession;
 
 import mygalaxy.MyGalaxy;
 import mygalaxy.inst.Instagram;
-import mygalaxy.vk.api.VK;
+import mygalaxy.vk.api.conf.VKConfig;
 import mygalaxy.vk.api.domain.AuthResponse;
 
 import org.apache.commons.io.IOUtils;
@@ -22,6 +22,7 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -35,22 +36,24 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 @RequestMapping("/auth")
 public class AuthController {
 
+	@Autowired
+	private VKConfig config;
+
 	@RequestMapping(value = "/vk", method = RequestMethod.GET)
-	public String getVkToken(
-			@RequestParam(value = "code", required = false) String code,
-			HttpSession session) throws URISyntaxException, IOException {
+	public String getVkToken(@RequestParam(value = "code", required = false) String code, HttpSession session)
+	        throws URISyntaxException, IOException {
 
 		URIBuilder builder = new URIBuilder();
-		builder.setScheme("https").setHost(VK.API_HOST).setPath(VK.AUTH_PATH);
+		builder.setScheme("https").setHost(config.API_HOST).setPath(config.AUTH_PATH);
 
 		CloseableHttpClient httpclient = HttpClients.createDefault();
 		String URI = builder.build().toString();
 		HttpPost post = new HttpPost(URI);
 
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
-		params.add(new BasicNameValuePair("client_id", VK.CLIENT_ID));
-		params.add(new BasicNameValuePair("client_secret", VK.CLIENT_SECRET));
-		params.add(new BasicNameValuePair("redirect_uri", VK.REDIRECT_URI));
+		params.add(new BasicNameValuePair("client_id", config.getClientId()));
+		params.add(new BasicNameValuePair("client_secret", config.getClientSecret()));
+		params.add(new BasicNameValuePair("redirect_uri", config.getRedirectUri()));
 		params.add(new BasicNameValuePair("code", code));
 		post.setEntity(new UrlEncodedFormEntity(params, Consts.UTF_8));
 		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
@@ -58,7 +61,7 @@ public class AuthController {
 
 		String entityString;
 		try {
-			entityString = IOUtils.toString(response.getEntity().getContent(),"UTF-8");
+			entityString = IOUtils.toString(response.getEntity().getContent(), "UTF-8");
 		} finally {
 			response.close();
 		}
@@ -75,14 +78,14 @@ public class AuthController {
 
 		return "redirect:/";
 	}
+
 	// @RequestParam("access_token") String accessToken,
 	// @RequestParam("expires_in") String expiresIn,
 	// @RequestParam("user_id") String userId,
 
 	@RequestMapping(value = "/inst", method = RequestMethod.GET)
-	public String getInstToken(
-			@RequestParam(value = "code", required = false) String code,
-			HttpSession session) throws URISyntaxException, IOException {
+	public String getInstToken(@RequestParam(value = "code", required = false) String code, HttpSession session)
+	        throws URISyntaxException, IOException {
 
 		URIBuilder builder = new URIBuilder();
 		builder.setScheme("https").setHost(Instagram.API_HOST).setPath(Instagram.AUTH_PATH);

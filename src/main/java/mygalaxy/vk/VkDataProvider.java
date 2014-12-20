@@ -12,7 +12,7 @@ import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
 public class VkDataProvider implements DataProvider {
-	
+
 	private final Friends friends;
 
 	public VkDataProvider(String accessToken) {
@@ -25,30 +25,27 @@ public class VkDataProvider implements DataProvider {
 
 		Node center = new Node();// TODO implement user.get
 		center.setId(userId);
-		
+
 		List<User> firstStep = friends.get(center.getId());
 		List<Node> nodes = new ArrayList<>();
 		for (User user : firstStep) {
-				nodes.add(new Node(user));
+			nodes.add(new Node(user));
 		}
-		//connections.putAll(center, nodes);//remove self
-		
+		// connections.putAll(center, nodes);//remove self
+
 		for (Node node : nodes) {
 			populateConnections4User(connections, node, nodes);
 		}
-		
+
 		return connections;
 	}
 
-	
-
-	private List<Node> populateConnections4User(
-			Multimap<Node, Node> connections, Node center, List<Node> all) {
+	private List<Node> populateConnections4User(Multimap<Node, Node> connections, Node center, List<Node> all) {
 		List<User> list = friends.get(center.getId());
 		List<Node> nodes = new ArrayList<>();
 		for (User user : list) {
 			Node node = new Node(user);
-			if (all.contains(node)) {//TODO add tails
+			if (all.contains(node)) {// TODO add tails
 				nodes.add(node);
 			}
 		}

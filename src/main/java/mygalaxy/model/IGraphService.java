@@ -23,6 +23,5 @@ public interface IGraphService {
 
 	Graph pullGraph(String id);
 
-	public Graph joinedGraph(String vkUserId, String instUserId,
-			String vkAccessToken, String instaAccessToken);
+	public Graph joinedGraph(String vkUserId, String instUserId, String vkAccessToken, String instaAccessToken);
 }

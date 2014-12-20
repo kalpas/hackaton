@@ -3,18 +3,14 @@ package mygalaxy.vk.api.domain;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
-@JsonPropertyOrder({
-"access_token",
-"expires_in",
-"user_id"
-})
+@JsonPropertyOrder({ "access_token", "expires_in", "user_id" })
 public class AuthResponse {
 
-@JsonProperty("access_token")
-public String accessToken;
-@JsonProperty("expires_in")
-public Integer expiresIn;
-@JsonProperty("user_id")
-public Integer userId;
+	@JsonProperty("access_token")
+	public String  accessToken;
+	@JsonProperty("expires_in")
+	public Integer expiresIn;
+	@JsonProperty("user_id")
+	public Integer userId;
 
 }

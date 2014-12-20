@@ -9,7 +9,7 @@ import mygalaxy.domain.Node;
 public class QueueHolder {
 	public Queue<Node> nodeQueue = new ConcurrentLinkedQueue<>();
 	public Queue<Edge> edgeQueue = new ConcurrentLinkedQueue<>();
-	
-	public Boolean finished = false;
+
+	public Boolean     finished  = false;
 
 }
