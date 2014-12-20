@@ -31,7 +31,7 @@ public class BaseController {
 
 		model.addAttribute("insta_client_id", instaConfig.getClientId());
 		model.addAttribute("insta_redirect_uri", instaConfig.getRedirectUri());
-		model.addAttribute("insta_response_type", instaConfig.getAuthResponse≈ype());
+		model.addAttribute("insta_response_type", instaConfig.getAuthResponseType());
 
 		return "login";
 	}

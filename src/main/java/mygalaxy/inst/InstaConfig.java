@@ -8,7 +8,7 @@ public class InstaConfig {
 	private String      clientSecret;
 	private String      clientId;
 	private String      redirectUri;
-	private String      authResponse≈ype;
+	private String      authResponseType;
 
 	public String getClientSecret() {
 		return clientSecret;
@@ -34,12 +34,12 @@ public class InstaConfig {
 		this.redirectUri = redirectUri;
 	}
 
-	public String getAuthResponse≈ype() {
-		return authResponse≈ype;
+	public String getAuthResponseType() {
+		return authResponseType;
 	}
 
-	public void setAuthResponse≈ype(String auth esponse≈ype) {
-		this.authResponse≈ype = auth esponse≈ype;
+	public void setAuthResponseType(String auth esponse≈ype) {
+		this.authResponseType = auth esponse≈ype;
 	}
 
 }
