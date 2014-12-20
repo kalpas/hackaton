@@ -3,10 +3,10 @@ package hackaton;
 import java.util.ArrayList;
 import java.util.List;
 
-import myGalaxy.domain.Edge;
-import myGalaxy.domain.Node;
-import myGalaxy.graphing.QueueHolder;
-import myGalaxy.graphing.QueuedVKDataProvider;
+import mygalaxy.domain.Edge;
+import mygalaxy.domain.Node;
+import mygalaxy.graphing.QueueHolder;
+import mygalaxy.graphing.QueuedVKDataProvider;
 import static org.junit.Assert.*;
 
 import org.junit.Test;

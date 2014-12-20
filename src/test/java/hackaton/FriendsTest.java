@@ -2,8 +2,8 @@ package hackaton;
 
 import java.util.List;
 
-import myGalaxy.VK.API.domain.User;
-import myGalaxy.VK.API.friends.Friends;
+import mygalaxy.vk.api.domain.User;
+import mygalaxy.vk.api.friends.Friends;
 
 import org.junit.Test;
 

@@ -1,9 +1,9 @@
 package hackaton;
 
-import myGalaxy.VK.VkDataProvider;
-import myGalaxy.domain.Graph;
-import myGalaxy.graphing.DataProvider;
-import myGalaxy.graphing.GraphBuilder;
+import mygalaxy.domain.Graph;
+import mygalaxy.graphing.DataProvider;
+import mygalaxy.graphing.GraphBuilder;
+import mygalaxy.vk.VkDataProvider;
 
 import org.junit.Test;
 

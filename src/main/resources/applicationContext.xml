@@ -11,7 +11,7 @@
 
 	<mvc:default-servlet-handler />
 	<mvc:annotation-driven />
-	<context:component-scan base-package="myGalaxy" />
+	<context:component-scan base-package="mygalaxy" />
 	 
 	 
 	<!-- Configure to plugin JSON as request and response in method handler -->
