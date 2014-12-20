@@ -31,12 +31,12 @@
 
     <!-- PRODUCTION -->
     <bean id="VKConfig" class="mygalaxy.vk.api.conf.VKConfig">
-        <property name="vkClientSecret" value="ahX5Q63OgLkTkzAoIvDn" />
-        <property name="vkClientId" value="4653561" />
-        <property name="vkScope" value="friends" />
-        <property name="vkAuthDisplay" value="page" />
-        <property name="vkAuthResponseType" value="code" />
-        <property name="vkRedirectUri" value="http://galaxy.kalpas.net/auth/vk" />
+        <property name="clientSecret" value="ahX5Q63OgLkTkzAoIvDn" />
+        <property name="clientId" value="4653561" />
+        <property name="scope" value="friends" />
+        <property name="authDisplay" value="page" />
+        <property name="authResponseType" value="code" />
+        <property name="redirectUri" value="http://galaxy.kalpas.net/auth/vk" />
     </bean>
 
 
