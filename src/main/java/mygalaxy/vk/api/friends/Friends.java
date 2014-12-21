@@ -19,6 +19,7 @@ import org.apache.http.NameValuePair;
 import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.message.BasicNameValuePair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -26,6 +27,7 @@ import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.google.common.base.Joiner;
 
+@Component
 public class Friends {
 
 	@Autowired
@@ -33,13 +35,9 @@ public class Friends {
 
 	private static final String[] FIELDS = { "sex", "country", "photo_200_orig", "connections" };
 
-	private final String          accessToken;
+	private String                accessToken;
 
 	private ObjectMapper          mapper = new ObjectMapper();
-
-	public Friends(String accessToken) {
-		this.accessToken = accessToken;
-	}
 
 	public List<User> get(String userId) {
 		List<User> list = new ArrayList<>();
@@ -183,6 +181,10 @@ public class Friends {
 		}
 		return map;
 
+	}
+
+	public void setAccessToken(String accessToken) {
+		this.accessToken = accessToken;
 	}
 
 }

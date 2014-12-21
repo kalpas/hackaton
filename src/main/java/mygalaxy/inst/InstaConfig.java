@@ -1,5 +1,6 @@
 package mygalaxy.inst;
 
+
 public class InstaConfig {
 
 	public final String API_HOST  = "api.instagram.com/oauth";

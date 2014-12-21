@@ -13,10 +13,10 @@ import com.google.common.collect.Multimap;
 
 public class VkDataProvider implements DataProvider {
 
-	private final Friends friends;
+	private Friends friends;
 
 	public VkDataProvider(String accessToken) {
-		this.friends = new Friends(accessToken);
+		this.friends.setAccessToken(accessToken);
 	}
 
 	@Override
