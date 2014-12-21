@@ -12,9 +12,10 @@ module.exports.main = function () {
 	
 	setTimeout(function(){
 		var graphId = $('#graphId').val();
+		var graphType = $('#graphType').val();
 		console.info(graphId);
-		if (graphId) {
-			getData(graphId);
+		if (graphId && graphType) {
+			getData(graphId,graphType);
 			//timerId = setInterval(function(){getData(graphId)},10000);
 		} else {
 			console.info('No graphId');
@@ -266,15 +267,16 @@ function addEventListeners(graph, threeGraphics, elementId) {
 	}
 }
 
-function getData(graphId) {
+function getData(graphId,graphType) {
 	jQuery.ajax({
 		type : 'GET',
 		async : true,
 		cashe : false,
 		dataType : 'json',
 		// url : 'js/4080446.json',
-		url : 'rest/joined',
+		url : 'rest/'+graphType,
 		success : function(data) {
+			$('#busy').remove();
 			console.info(data);
 			if (!data) {
 				//clearInterval(timerId);
@@ -284,6 +286,7 @@ function getData(graphId) {
 		},
 		error : function(jqXHR, textStatus, errorThrown) {
 			console.log(textStatus, errorThrown);
+			$('#busy').remove();
 			alert('Error occured!');
 			//clearInterval(timerId);
 		} 

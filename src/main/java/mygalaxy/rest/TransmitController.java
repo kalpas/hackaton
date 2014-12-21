@@ -37,14 +37,14 @@ public class TransmitController {
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/build", method = RequestMethod.GET)
-	public Graph loadGraph(@RequestParam(required = true, value = "userId") String userId, HttpSession session) {
-		return this.graphServ
-		        .buildGraph(userId, String.valueOf(session.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)));
+	@RequestMapping(value = "/vk", method = RequestMethod.GET)
+	public Graph loadGraph(@RequestParam(required = false, value = "userId") String vkUserId, HttpSession session) {
+		String vkId = vkUserId != null ? vkUserId : String.valueOf(session.getAttribute(MyGalaxy.VK_SESSION_USER_ID));
+		return this.graphServ.buildGraph(vkId, String.valueOf(session.getAttribute(MyGalaxy.VK_SESSION_ACCESS_TOKEN)));
 	}
 
 	@ResponseBody
-	@RequestMapping(value = "/instbuild", method = RequestMethod.GET)
+	@RequestMapping(value = "/insta", method = RequestMethod.GET)
 	public Graph instLoadGraph(@RequestParam(required = false, value = "userId") String userId, HttpSession session) {
 		return this.graphServ.buildInstGraph(
 		        userId != null ? userId : String.valueOf(session.getAttribute(MyGalaxy.INST_SESSION_USER_ID)),

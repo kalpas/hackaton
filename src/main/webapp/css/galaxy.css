@@ -1,5 +1,5 @@
 .loginbody {
-	background: url('../img/outer-space-hd-wallpaper.jpg') no-repeat;
+	background: url('../img/outer-space-hd-wallpaper.jpg') repeat;
 }
 
 .spacer {
@@ -49,4 +49,14 @@
 	text-align: center;
 	background-color: #f5f5f5;
 	margin: -10px;
+}
+
+.busy {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	margin-top: -50px;
+	margin-left: -50px;
+	width: 100px;
+	height: 100px;
 }

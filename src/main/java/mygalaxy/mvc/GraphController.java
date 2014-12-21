@@ -21,12 +21,13 @@ public class GraphController {
 	private IGraphService graphServ;
 
 	@RequestMapping(value = "graph")
-	public ModelAndView getGraph(HttpSession session) {
+	public ModelAndView getGraph(@RequestParam(required = false, value = "type") String type,HttpSession session) {
 		ModelAndView mav = new ModelAndView("graph");
 
 		String id = String.valueOf(new Random(1000).nextLong());
 
 		mav.addObject("graphId", id);
+		mav.addObject("graphType", type);
 
 		return mav;
 	}

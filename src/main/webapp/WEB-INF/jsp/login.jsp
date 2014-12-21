@@ -63,14 +63,41 @@
 		<div class="view">
 			<c:choose>
 				<c:when
-					test="${empty sessionScope.instuser and empty sessionScope.user}">
-				</c:when>
-				<c:otherwise>
+					test="${not empty sessionScope.instuser or not empty sessionScope.user}">
 					<div class="page-header">
-						<H2>Now you are able to view graphs</H2>
+						<H2>Now you are able to view following graphs:</H2>
 					</div>
-					<div class="list-group">
-						<a href="graph" class="list-group-item">
+				</c:when>
+			</c:choose>
+
+			<div class="list-group">
+				<c:choose>
+					<c:when test="${not empty sessionScope.user}">
+						<a href="graph?type=vk" class="list-group-item">
+							<h3 class="list-group-item-heading">VK graph</h3>
+							<p class="list-group-item-text">This will show VK graph.</p>
+							<p></p>
+							<button type="button" class="btn btn-lg btn-success">Build
+								it! >></button>
+						</a>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when test="${not empty sessionScope.instuser}">
+						<a href="graph?type=insta" class="list-group-item">
+							<h3 class="list-group-item-heading">Instagram graph</h3>
+							<p class="list-group-item-text">This will show Instagram
+								graph.</p>
+							<p></p>
+							<button type="button" class="btn btn-lg btn-success">Build
+								it! >></button>
+						</a>
+					</c:when>
+				</c:choose>
+				<c:choose>
+					<c:when
+						test="${not empty sessionScope.instuser and not empty sessionScope.user}">
+						<a href="graph?type=joined" class="list-group-item">
 							<h3 class="list-group-item-heading">Combined graph</h3>
 							<p class="list-group-item-text">This will show graph
 								combining your VK network with instagram.</p>
@@ -80,9 +107,10 @@
 							<button type="button" class="btn btn-lg btn-success">Build
 								it! >></button>
 						</a>
-					</div>
-				</c:otherwise>
-			</c:choose>
+					</c:when>
+				</c:choose>
+			</div>
+
 		</div>
 		<div class="spacer"></div>
 		<footer class="footer">
@@ -90,7 +118,7 @@
 				Source is placed on GitHub under MIT License. Copyright (c) 2014
 				kalpas-team <a href="https://github.com/kalpas-team/hackaton"
 					type="button" class="btn btn-xs btn-link">Link</a>
-					</button>
+				</button>
 			</p>
 
 		</footer>
