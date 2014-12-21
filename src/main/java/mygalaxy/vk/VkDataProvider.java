@@ -8,16 +8,17 @@ import mygalaxy.graphing.DataProvider;
 import mygalaxy.vk.api.domain.User;
 import mygalaxy.vk.api.friends.Friends;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+@Component
 public class VkDataProvider implements DataProvider {
 
+	@Autowired
 	private Friends friends;
-
-	public VkDataProvider(String accessToken) {
-		this.friends.setAccessToken(accessToken);
-	}
 
 	@Override
 	public Multimap<Node, Node> getData(String userId) {
@@ -51,6 +52,11 @@ public class VkDataProvider implements DataProvider {
 		}
 		connections.putAll(center, nodes);
 		return nodes;
+	}
+
+	// FIXME seems like code smells
+	public void setAccessToken(String accessToken) {
+		this.friends.setAccessToken(accessToken);
 	}
 
 }

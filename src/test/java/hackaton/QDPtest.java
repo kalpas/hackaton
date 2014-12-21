@@ -12,13 +12,21 @@ import mygalaxy.graphing.QueueHolder;
 import mygalaxy.graphing.QueuedVKDataProvider;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(value = "/applicationContext.xml")
 public class QDPtest {
+
+	@Autowired
+	private QueuedVKDataProvider provider;
 
 	@Test
 	public void test() throws InterruptedException {
-		QueuedVKDataProvider provider = new QueuedVKDataProvider(
-		        "10d9a1a5e8606ac47cd89fb8a97c2f5dadb39e4486cd47caf950356d7939648e859b8c4097a0a6a6241fc");
+		provider.setAccessToken("10d9a1a5e8606ac47cd89fb8a97c2f5dadb39e4486cd47caf950356d7939648e859b8c4097a0a6a6241fc");
 
 		QueueHolder queues = provider.submitTask("1080446");
 

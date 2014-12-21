@@ -10,16 +10,18 @@ import mygalaxy.vk.api.domain.User;
 import mygalaxy.vk.api.friends.Friends;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.collect.HashMultimap;
 import com.google.common.collect.Multimap;
 
+@Component
 public class QueuedVKDataProvider {
 
 	@Autowired
 	private Friends friends;
 
-	public QueuedVKDataProvider(String accessToken) {
+	public void setAccessToken(String accessToken) {
 		this.friends.setAccessToken(accessToken);
 	}
 

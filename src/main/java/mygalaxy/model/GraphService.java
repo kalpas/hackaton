@@ -27,6 +27,12 @@ public class GraphService implements IGraphService {
 	@Autowired
 	private Users     users;
 
+	@Autowired
+	private VkDataProvider vkDataProvider;
+
+	@Autowired
+	private QueuedVKDataProvider queuedVKDataProvider;
+
 	@Override
 	public List<Node> getNodes() {
 		// TODO Auto-generated method stub
@@ -53,9 +59,9 @@ public class GraphService implements IGraphService {
 
 	public Graph buildGraph(String userId, String accessToken) {
 		GraphBuilder builder = new GraphBuilder();
-		DataProvider provider = new VkDataProvider(accessToken);
+		vkDataProvider.setAccessToken(accessToken);
 
-		return builder.build(provider, userId);
+		return builder.build(vkDataProvider, userId);
 	}
 
 	public Graph buildInstGraph(String userId, String accessToken) {
@@ -66,18 +72,18 @@ public class GraphService implements IGraphService {
 	}
 
 	public void asyncBuildGraph(String userId, String accessToken, String id) {
-		QueuedVKDataProvider provider = new QueuedVKDataProvider(accessToken);
+		queuedVKDataProvider.setAccessToken(accessToken);
 
-		QueueHolder qh = provider.submitTask(userId);
+		QueueHolder qh = queuedVKDataProvider.submitTask(userId);
 		MyGalaxy.GRAPH_POOL.put(id, qh);
 	}
 
 	public Graph joinedGraph(String vkUserId, String instUserId, String vkAccessToken, String instaAccessToken) {
 		GraphBuilder builder = new GraphBuilder();
 		InstagramDataProvider instaProvider = new InstagramDataProvider(instaAccessToken, relations);
-		VkDataProvider vkProvider = new VkDataProvider(vkAccessToken);
+		vkDataProvider.setAccessToken(vkAccessToken);
 
-		return builder.build(vkProvider, instaProvider, vkUserId, instUserId, instaAccessToken, users);
+		return builder.build(vkDataProvider, instaProvider, vkUserId, instUserId, instaAccessToken, users);
 
 	}
 
